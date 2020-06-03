@@ -9,33 +9,13 @@
   <display-name>Java webapp</display-name>
 
   <servlet>
-    <servlet-name>RegisterUserServlet</servlet-name>
-    <servlet-class>com.andrii.servlet.RegisterUserServlet</servlet-class>
+    <servlet-name>MainServlet</servlet-name>
+    <servlet-class>com.andrii.servlet.MainServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>RegisterUserServlet</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UserServlet</servlet-name>
-    <servlet-class>com.andrii.servlet.UserServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>UpdateUserServlet</servlet-name>
-    <url-pattern>/updateuser</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UpdateUserServlet</servlet-name>
-    <servlet-class>com.andrii.servlet.UpdateUserServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/users</url-pattern>
+    <servlet-name>MainServlet</servlet-name>
+    <url-pattern>/mainservlet</url-pattern>
   </servlet-mapping>
 
 
