@@ -1,6 +1,6 @@
-package com.andrii.cruder;
+package com.andrii.dao;
 
-import com.andrii.user.User;
+import com.andrii.module.user.User;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -71,7 +71,7 @@ public class CruderNIO implements Cruder {
     }
 
     @Override
-    public boolean writeUsers(User u) {
+    public boolean writeUser(User u) {
         userData = readUsers();
         userData.add(u);
         return writeLines();
@@ -79,13 +79,13 @@ public class CruderNIO implements Cruder {
 
 
     @Override
-    public boolean deleteUsers(User u) {
+    public boolean deleteUser(User u) {
         userData.remove(u);
         return writeLines();
     }
 
     @Override
-    public boolean updateUsers(User u, User newU) {
+    public boolean updateUser(User u, User newU) {
         userData.remove(u);
         userData.add(newU);
         return writeLines();

@@ -1,10 +1,8 @@
 package com.andrii.servlet;
 
-import com.andrii.cruder.CruderIO;
-import com.andrii.user.User;
+import com.andrii.dao.CruderIO;
+import com.andrii.module.user.User;
 import com.google.gson.JsonObject;
-import org.json.HTTP;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -12,11 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -46,7 +41,7 @@ public class MainServlet extends HttpServlet {
                 pref
         );
 
-        boolean state = cruderIO.writeUsers(u);
+        boolean state = cruderIO.writeUser(u);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
@@ -59,9 +54,9 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        cruderIO.deleteUsers(cruderIO.findUserByName("Android"));
+        cruderIO.deleteUser(cruderIO.findUserByName("Android"));
         Map<String, String> idUserMap = cruderIO.readUsers().stream()
-                .collect(Collectors.toMap(User::getId, User::getName));
+                .collect(Collectors.toMap(User::getUid, User::getName));
         json = new JsonObject();
         idUserMap.forEach((id, name) -> json.addProperty(("id_" + id), name));
         json.addProperty("message", "ok");
@@ -88,7 +83,7 @@ public class MainServlet extends HttpServlet {
                 pref
         );
 
-        boolean state = cruderIO.updateUsers(cruderIO.findUserByName(nameToBeUpdated), u);
+        boolean state = cruderIO.updateUser(cruderIO.findUserByName(nameToBeUpdated), u);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
@@ -104,7 +99,7 @@ public class MainServlet extends HttpServlet {
         JSONObject data = new JSONObject(request.getParameter("myData"));
         String name = data.getString("nameToDelete");
 
-        boolean state = cruderIO.deleteUsers(cruderIO.findUserByName(name));
+        boolean state = cruderIO.deleteUser(cruderIO.findUserByName(name));
 
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
