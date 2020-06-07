@@ -40,7 +40,7 @@ public class ItemDAO extends ConnectionCloser {
                 "*" +
                 " FROM item i " +
                 "INNER JOIN \"group\" g " +
-                "ON i.group_id = \"" + groupId + "\";";
+                "ON i.group_id = \'" + groupId + "\';";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -68,15 +68,15 @@ public class ItemDAO extends ConnectionCloser {
     public static void insertItem(Item i){
         String insertItemQuery =
                 "INSERT INTO item (item_name, price, quantity, group_id) " +
-                        "VALUES (\"" + i.getItemName() + "\", \""
-                                   + i.getPrice() + "\", \""
-                                   + i.getQuantity() + "\", \""
-                                   + i.getGroupId() + "\");";
+                        "VALUES (\'" + i.getItemName() + "\', \'"
+                                   + i.getPrice() + "\', \'"
+                                   + i.getQuantity() + "\', \'"
+                                   + i.getGroupId() + "\');";
 
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
-            result = statement.executeQuery(insertItemQuery);
+            statement.executeUpdate(insertItemQuery);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -88,12 +88,12 @@ public class ItemDAO extends ConnectionCloser {
     public static void removeItem(int id){
         String deleteItemQuery =
                 "DELETE FROM item " +
-                "WHERE id=\"" + id + "\";";
+                "WHERE id=\'" + id + "\';";
 
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
-            result = statement.executeQuery(deleteItemQuery);
+            statement.executeUpdate(deleteItemQuery);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

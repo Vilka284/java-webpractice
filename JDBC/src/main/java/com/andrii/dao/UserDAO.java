@@ -8,10 +8,10 @@ public class UserDAO extends ConnectionCloser {
         String username = u.getUsername();
         String password = u.getPassword();
         String getUserQuery =
-                "SELECT " +
+                        "SELECT " +
                         "*" +
                         " FROM \"user\"" +
-                        " WHERE user_name=\"" + username + "\" AND password=\"" + password + "\";";
+                        " WHERE user_name=\'" + username + "\' AND password=\'" + password + "\';";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -20,13 +20,13 @@ public class UserDAO extends ConnectionCloser {
 
             boolean check = result.next();
             int role = result.getInt("role_id");
-            String getUserStatusQuery =
-                    "SELECT " +
+            String getUserRoleQuery =
+                            "SELECT " +
                             "role_name" +
                             " FROM role" +
-                            " WHERE id=\"" + role + "\";";
+                            " WHERE id=\'" + role + "\';";
 
-            result = statement.executeQuery(getUserStatusQuery);
+            result = statement.executeQuery(getUserRoleQuery);
 
             if (check)
                 u.setRole(result.getString("role_name"));
@@ -45,23 +45,23 @@ public class UserDAO extends ConnectionCloser {
         String username = u.getUsername();
         String password = u.getPassword();
         String getUserQuery =
-                "SELECT " +
+                        "SELECT " +
                         " * " +
                         " FROM \"user\" " +
-                        " WHERE user_name=\"" + username + "\" AND password=\"" + password + "\";";
+                        " WHERE user_name=\'" + username + "\';";
         String insertUserQuery =
-                "INSERT INTO \"user\" (user_name, password, role) " +
-                "VALUES (\"" + username + "\", \"" + password + "\", 0);";
+                "INSERT INTO \"user\" (user_name, password, role_id) " +
+                "VALUES (\'" + username + "\', \'" + password + "\', 1);";
 
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
             result = statement.executeQuery(getUserQuery);
 
-            if (result.getString("user_name").equals(u.getUsername()))
+            if (result == null)
                 return false;
             else
-                result = statement.executeQuery(insertUserQuery);
+                statement.executeUpdate(insertUserQuery);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

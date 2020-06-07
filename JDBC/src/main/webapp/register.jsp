@@ -54,7 +54,7 @@
 <body>
 <div align="center">
     <h1>Register Form</h1>
-    <form>
+    <form method="post">
         <table style="width: 80%">
             <tr>
                 <td>Username</td>

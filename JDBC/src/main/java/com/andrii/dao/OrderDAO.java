@@ -12,7 +12,7 @@ public class OrderDAO extends ConnectionCloser {
         List<Integer> itemsList = o.getOrderedItemsId();
         String createOrderQuery =
                 "INSERT INTO order VALUES (user_id, item_id) " +
-                "VALUES (\"" + userId + "\",\" " + itemsList.get(0) + "\") ";
+                "VALUES (\'" + userId + "\', \'" + itemsList.get(0) + "\') ";
         itemsList.remove(0);
         /*
         Add more items to order if it need to
@@ -20,7 +20,7 @@ public class OrderDAO extends ConnectionCloser {
         for (int i:
             itemsList) {
             createOrderQuery = createOrderQuery.concat(
-                    ", (\"" + userId + "\", \"" + i + "\")"
+                    ", (\'" + userId + "\', \'" + i + "\')"
             );
         }
         createOrderQuery = createOrderQuery.concat(";");
@@ -28,7 +28,7 @@ public class OrderDAO extends ConnectionCloser {
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
-            result = statement.executeQuery(createOrderQuery);
+            statement.executeUpdate(createOrderQuery);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class OrderDAO extends ConnectionCloser {
         String getOrderQuery = "SELECT " +
                 "user_id, " +
                 "item_id, " +
-                " FROM \"order\" WHERE user_id=\"" + userId + "\";";
+                " FROM \"order\" WHERE user_id=\'" + userId + "\';";
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
@@ -69,11 +69,11 @@ public class OrderDAO extends ConnectionCloser {
     public static void removeItemById(int userId, int itemId) {
         String removeItemQuery =
                 "DELETE FROM \"order\"" +
-                        "WHERE user_id=" + userId + " AND item_id=" + itemId + ";";
+                        "WHERE user_id=\'" + userId + "\' AND item_id=\'" + itemId + "\';";
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
-            result = statement.executeQuery(removeItemQuery);
+            statement.executeUpdate(removeItemQuery);
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -29,16 +29,14 @@
                             'name': name,
                             'pswd': pswd
                         }));
-                alert('watch');
+                    alert('watch');
                     $.ajax({
                         type: 'post',
                         url: 'http://localhost:8080/login',
                         data: {
-                            myData: JSON.stringify(
-                                {
-                                    'name': name,
-                                    'pswd': pswd
-                                })
+                            'name': name,
+                            'pswd': pswd
+
                         },
                         dataType: "json",
                         success: function (data) {
@@ -59,7 +57,7 @@
 <body>
 <div align="center">
     <h1>Login Form</h1>
-    <form>
+    <form method="post">
         <table style="width: 80%">
             <tr>
                 <td>Please enter your username</td>
