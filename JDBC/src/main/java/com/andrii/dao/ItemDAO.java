@@ -12,7 +12,7 @@ public class ItemDAO extends ConnectionCloser {
         String getItemQuery =
                 "SELECT " +
                 "*" +
-                " FROM item WHERE id=\"" + itemId +"\";";
+                " FROM item WHERE id=" + itemId +";";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -40,7 +40,7 @@ public class ItemDAO extends ConnectionCloser {
                 "*" +
                 " FROM item i " +
                 "INNER JOIN \"group\" g " +
-                "ON i.group_id = \'" + groupId + "\';";
+                "ON i.group_id = " + groupId + ";";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -68,10 +68,10 @@ public class ItemDAO extends ConnectionCloser {
     public static void insertItem(Item i){
         String insertItemQuery =
                 "INSERT INTO item (item_name, price, quantity, group_id) " +
-                        "VALUES (\'" + i.getItemName() + "\', \'"
-                                   + i.getPrice() + "\', \'"
-                                   + i.getQuantity() + "\', \'"
-                                   + i.getGroupId() + "\');";
+                        "VALUES (\'" + i.getItemName() + "\', "
+                                   + i.getPrice() + ", "
+                                   + i.getQuantity() + ", "
+                                   + i.getGroupId() + ");";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -88,7 +88,7 @@ public class ItemDAO extends ConnectionCloser {
     public static void removeItem(int id){
         String deleteItemQuery =
                 "DELETE FROM item " +
-                "WHERE id=\'" + id + "\';";
+                "WHERE id=" + id + ";";
 
         try {
             connection = ConnectionManager.getConnection();

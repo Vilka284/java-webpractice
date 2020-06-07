@@ -19,17 +19,18 @@ public class UserDAO extends ConnectionCloser {
             result = statement.executeQuery(getUserQuery);
 
             boolean check = result.next();
-            int role = result.getInt("role_id");
-            String getUserRoleQuery =
-                            "SELECT " +
-                            "role_name" +
-                            " FROM role" +
-                            " WHERE id=\'" + role + "\';";
+            if (check) {
+                int role = result.getInt("role_id");
+                String getUserRoleQuery =
+                        "SELECT " +
+                                "role_name" +
+                                " FROM role" +
+                                " WHERE id=" + role + ";";
 
-            result = statement.executeQuery(getUserRoleQuery);
-
-            if (check)
-                u.setRole(result.getString("role_name"));
+                result = statement.executeQuery(getUserRoleQuery);
+                if (result.next())
+                    u.setRole(result.getString("role_name"));
+            }
 
             u.setValid(check);
         } catch (Exception e) {
@@ -71,7 +72,20 @@ public class UserDAO extends ConnectionCloser {
     }
 
     public static void setRole(int userId, int roleId) {
+        String updateUserRoleQuery =
+                        "UPDATE \"user\" " +
+                        " SET role_id=" + roleId +
+                        " WHERE id=" + userId + ";";
 
+        try {
+            connection = ConnectionManager.getConnection();
+            statement = connection.createStatement();
+            statement.executeUpdate(updateUserRoleQuery);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(connection, result, statement);
+        }
     }
 
 }

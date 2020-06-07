@@ -6,6 +6,8 @@ import com.andrii.dao.UserDAO;
 import com.andrii.module.item.Item;
 import com.andrii.module.order.Order;
 import com.andrii.module.user.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +32,7 @@ public class MainPageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject data = new JSONObject(request.getParameter("myData"));
         HttpSession session = request.getSession();
+        JsonObject json = new JsonObject();
         User u = (User) (session.getAttribute("currentSessionUser"));
         String role = (String) session.getAttribute("userRole");
         String action = data.getString("action");
@@ -37,7 +40,7 @@ public class MainPageServlet extends HttpServlet {
 
         switch (action) {
             case "add_item":
-                if (ifAdmin(role)) {
+                if (ifAdmin(role) || ifManager(role)) {
                     ItemDAO.insertItem(
                             new Item(
                                     data.getString("itemName"),
@@ -50,7 +53,7 @@ public class MainPageServlet extends HttpServlet {
                 }
                 break;
             case "remove_item":
-                if (ifAdmin(role)) {
+                if (ifAdmin(role) || ifManager(role)) {
                     ItemDAO.removeItem(
                             data.getInt("itemId")
                     );
@@ -61,33 +64,64 @@ public class MainPageServlet extends HttpServlet {
                 if (ifAdmin(role)) {
                     UserDAO.setRole(
                             data.getInt("userId"),
-                            data.getInt("roleId")
+                            2
+                    );
+                    message = "ok";
+                }
+                break;
+            case "remove_manager":
+                if (ifAdmin(role)) {
+                    UserDAO.setRole(
+                            data.getInt("userId"),
+                            1
                     );
                     message = "ok";
                 }
                 break;
             case "add_order":
-                List<Integer> itemsList = new ArrayList<>();
+                List<Integer> itemsIdList = new ArrayList<>();
                 JSONArray arr = data.getJSONArray("item_id");
-                for(int i = 0; i < arr.length(); i++){
-                    itemsList.add(arr.getJSONObject(i).getInt("id"));
+                for (int i = 0; i < arr.length(); i++) {
+                    itemsIdList.add(arr.getJSONObject(i).getInt("id"));
                 }
                 OrderDAO.createOrder(new Order(
                         data.getInt("user_id"),
-                        itemsList
+                        itemsIdList
                 ));
+                message = "ok";
                 break;
-            case "remove_item_from_order":
+            case "cancel_order":
+                // buy = false
                 OrderDAO.removeItemById(
                         u.getId(),
-                        data.getInt("item_id")
+                        data.getInt("item_id"),
+                        false
                 );
+                message = "ok";
+                break;
+            case "finish_order":
+                // buy = true
+                OrderDAO.removeItemById(
+                        u.getId(),
+                        data.getInt("item_id"),
+                        true
+                );
+                message = "ok";
+                break;
+            case "get_items":
+                List<Item> itemsList = ItemDAO.getItemsByGroupId(data.getInt("groupId"));
+                for (Item i:
+                     itemsList) {
+                    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+                    String jsonItem = ow.writeValueAsString(i);
+                    json.addProperty(i.getItemName(), jsonItem);
+                }
+                message = "ok";
                 break;
             default:
                 break;
         }
 
-        JsonObject json = new JsonObject();
         json.addProperty("message", message);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
@@ -102,21 +136,38 @@ public class MainPageServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("userRole");
 
-        if (ifAdmin(role))
-            view = request.getRequestDispatcher("admin_page.jsp");
-        else if (role.equals("user"))
-            view = request.getRequestDispatcher("user_page.jsp");
-        else
-            response.sendRedirect("register.jsp");
+        if (role != null) {
+            switch (role) {
+                case "admin":
+                case "manager":
+                    view = request.getRequestDispatcher("admin_page.jsp");
+                    break;
+                case "user":
+                    view = request.getRequestDispatcher("user_page.jsp");
+                    break;
+                default:
+                    response.sendRedirect("http://localhost:8080/login");
+                    break;
+            }
+        } else {
+            response.sendRedirect("http://localhost:8080/login");
+        }
 
-        assert view != null;
-        view.forward(request, response);
+        if (view != null)
+            view.forward(request, response);
 
     }
 
-    private boolean ifAdmin(String role){
+
+    private boolean ifAdmin(String role) {
         if (role != null)
-            return role.equals("admin") || role.equals("manager");
+            return role.equals("admin");
+        return false;
+    }
+
+    private boolean ifManager(String role) {
+        if (role != null)
+            return role.equals("manager");
         return false;
     }
 

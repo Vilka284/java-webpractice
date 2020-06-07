@@ -24,12 +24,6 @@
                         return 0;
                     }
 
-                    console.log(JSON.stringify(
-                        {
-                            'name': name,
-                            'pswd': pswd
-                        }));
-                    alert('watch');
                     $.ajax({
                         type: 'post',
                         url: 'http://localhost:8080/login',
@@ -60,12 +54,12 @@
     <form method="post">
         <table style="width: 80%">
             <tr>
-                <td>Please enter your username</td>
-                <td><input type="text" name="un" id="name"/></td>
+                <td>Enter username</td>
+                <td><input type="text" name="name" id="name"/></td>
             </tr>
             <tr>
-                <td>Please enter your password</td>
-                <td><input type="text" name="pw" id="pswd"/></td>
+                <td>Enter password</td>
+                <td><input type="password" name="pswd" id="pswd"/></td>
             </tr>
 
         </table>
