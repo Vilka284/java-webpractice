@@ -73,7 +73,7 @@ public class OrderDAO extends ConnectionCloser {
     /*
     Remove item from order if order canceled or finished
      */
-    public static void removeItemById(int userId, int itemId, boolean buy) {
+    public static void closeOrder(int userId, int itemId, boolean buy) {
         String removeItemQuery =
                 "DELETE FROM \"order\"" +
                         "WHERE user_id=" + userId + " AND item_id=" + itemId + ";";

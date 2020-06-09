@@ -92,7 +92,7 @@ public class MainPageServlet extends HttpServlet {
                 break;
             case "cancel_order":
                 // buy = false
-                OrderDAO.removeItemById(
+                OrderDAO.closeOrder(
                         u.getId(),
                         data.getInt("item_id"),
                         false
@@ -101,7 +101,7 @@ public class MainPageServlet extends HttpServlet {
                 break;
             case "finish_order":
                 // buy = true
-                OrderDAO.removeItemById(
+                OrderDAO.closeOrder(
                         u.getId(),
                         data.getInt("item_id"),
                         true
