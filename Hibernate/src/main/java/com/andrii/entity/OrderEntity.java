@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class OrderEntity {
     private int id;
     private ItemEntity itemByItemId;
+    private UserEntity userByUserId;
 
     @Id
     @Column(name = "id")
@@ -41,5 +42,15 @@ public class OrderEntity {
 
     public void setItemByItemId(ItemEntity itemByItemId) {
         this.itemByItemId = itemByItemId;
+    }
+
+
+    @ManyToOne
+    public UserEntity getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(UserEntity userByUserId) {
+        this.userByUserId = userByUserId;
     }
 }
