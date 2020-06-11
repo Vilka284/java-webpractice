@@ -1,7 +1,7 @@
 package com.andrii.servlet;
 
 import com.andrii.dao.UserDAO;
-import com.andrii.entity.UserEntity;
+import com.andrii.entity.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,16 +15,18 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
 
+    private static UserDAO userDAO;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserEntity u = new UserEntity();
-        u.setUserName(request.getParameter("name"));
-        u.setPassword(request.getParameter("pswd"));
+        User user = new User();
+        user.setUserName(request.getParameter("name"));
+        user.setPassword(request.getParameter("pswd"));
 
-        if (UserDAO.login(u)) {
+        if (userDAO.login(user)) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("currentSessionUser", u);
-            session.setAttribute("userRole", u.getRoleByRoleId().getRoleName());
+            session.setAttribute("currentSessionUser", user);
+            session.setAttribute("userRole", user.getRoleByRoleId().getRoleName());
             response.sendRedirect("http://localhost:8080/store");
         } else {
             response.sendRedirect("register.jsp");

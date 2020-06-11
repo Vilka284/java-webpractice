@@ -1,23 +1,25 @@
 package com.andrii.dao;
 
-import com.andrii.entity.GroupEntity;
+import com.andrii.entity.Group;
 import com.andrii.util.HibernateUtil;
+import lombok.Singleton;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+@Singleton(style = Singleton.Style.HOLDER)
 public class GroupDAO {
 
-    public static GroupEntity getGroupById(int groupId) {
+    public Group getGroupById(int groupId) {
         Session session = HibernateUtil.currentSession();
-        GroupEntity g = (GroupEntity) session.load(GroupEntity.class, groupId);
+        Group group = (Group) session.load(Group.class, groupId);
         session.close();
-        return g;
+        return group;
     }
 
-    public static void createNewGroup(GroupEntity g) {
+    public void createNewGroup(Group group) {
         Session session = HibernateUtil.currentSession();
         Transaction transaction = session.beginTransaction();
-        session.save(g);
+        session.save(group);
         transaction.commit();
         session.close();
     }

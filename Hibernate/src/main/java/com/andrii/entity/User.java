@@ -1,0 +1,23 @@
+package com.andrii.entity;
+
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Data
+@Entity
+@Table(name = "user", schema = "public", catalog = "java_task")
+public class User {
+    @Id
+    @Column(name = "id")
+    private int id;
+    @Basic
+    @Column(name = "user_name")
+    private String userName;
+    @Basic
+    @Column(name = "password")
+    private String password;
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    private Role roleByRoleId;
+}

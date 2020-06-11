@@ -3,7 +3,7 @@ package com.andrii.servlet;
 
 import com.andrii.dao.RoleDAO;
 import com.andrii.dao.UserDAO;
-import com.andrii.entity.UserEntity;
+import com.andrii.entity.User;
 import com.google.gson.JsonObject;
 
 import javax.servlet.RequestDispatcher;
@@ -19,16 +19,19 @@ import java.io.PrintWriter;
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
+    private static RoleDAO roleDAO;
+    private static UserDAO userDAO;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserEntity u = new UserEntity();
-        u.setUserName(request.getParameter("name"));
-        u.setPassword(request.getParameter("pswd"));
-        u.setRoleByRoleId(RoleDAO.getRoleUser());
+        User user = new User();
+        user.setUserName(request.getParameter("name"));
+        user.setPassword(request.getParameter("pswd"));
+        user.setRoleByRoleId(roleDAO.getRoleUser());
 
-        if (UserDAO.register(u)) {
+        if (userDAO.register(user)) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("currentSessionUser", u);
+            session.setAttribute("currentSessionUser", user);
             session.setAttribute("userRole", "user");
             response.sendRedirect("http://localhost:8080/store");
         } else {

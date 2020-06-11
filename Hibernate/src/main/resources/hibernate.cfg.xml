@@ -26,11 +26,11 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <mapping class="com.andrii.entity.GroupEntity"/>
-        <mapping class="com.andrii.entity.ItemEntity"/>
-        <mapping class="com.andrii.entity.OrderEntity"/>
-        <mapping class="com.andrii.entity.RoleEntity"/>
-        <mapping class="com.andrii.entity.UserEntity"/>
+        <mapping class="com.andrii.entity.Group"/>
+        <mapping class="com.andrii.entity.Item"/>
+        <mapping class="com.andrii.entity.Order"/>
+        <mapping class="com.andrii.entity.Role"/>
+        <mapping class="com.andrii.entity.User"/>
 
     </session-factory>
 </hibernate-configuration>

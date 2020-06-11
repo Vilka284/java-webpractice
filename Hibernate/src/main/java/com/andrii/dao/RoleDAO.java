@@ -1,27 +1,29 @@
 package com.andrii.dao;
 
-import com.andrii.entity.RoleEntity;
+import com.andrii.entity.Role;
 import com.andrii.util.HibernateUtil;
+import lombok.Singleton;
 import org.hibernate.Session;
 
+@Singleton(style = Singleton.Style.HOLDER)
 public class RoleDAO {
 
-    public static RoleEntity getRoleById (int roleId) {
+    public Role getRoleById (int roleId) {
         Session session = HibernateUtil.currentSession();
-        RoleEntity r = (RoleEntity) session.load(RoleEntity.class, roleId);
+        Role role = (Role) session.load(Role.class, roleId);
         session.close();
-        return r;
+        return role;
     }
 
-    public static RoleEntity getRoleUser () {
+    public Role getRoleUser () {
         return getRoleById(1);
     }
 
-    public static RoleEntity getRoleManager() {
+    public Role getRoleManager() {
         return getRoleById(2);
     }
 
-    public static RoleEntity getRoleAdmin() {
+    public Role getRoleAdmin() {
         return getRoleById(3);
     }
 }

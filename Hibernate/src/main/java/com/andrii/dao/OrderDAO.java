@@ -1,36 +1,62 @@
 package com.andrii.dao;
 
-import com.andrii.entity.ItemEntity;
-import com.andrii.entity.OrderEntity;
+import com.andrii.entity.Item;
+import com.andrii.entity.Order;
 import com.andrii.util.HibernateUtil;
+import lombok.Singleton;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
+import java.util.List;
 
+@Singleton(style = Singleton.Style.HOLDER)
 public class OrderDAO {
 
-    public static void createOrder(OrderEntity o) {
+    public void createOrder(Order order, List<Integer> itemsIdList) {
         Session session = HibernateUtil.currentSession();
         Transaction transaction = session.beginTransaction();
-        session.save(o);
+        session.save(order);
+        transaction.commit();
+        session.close();
+
+    }
+
+
+    public void closeOrder(int orderId, int itemId, boolean buy) {
+        Session session = HibernateUtil.currentSession();
+        Transaction transaction = session.beginTransaction();
+        Item item = session.load(Item.class, itemId);
+        if (buy) {
+            item.setQuantity(item.getQuantity() - 1);
+            session.update(item);
+            if (item.getQuantity() <= 0)
+                session.delete(item);
+        }
+        Order order = session.load(Order.class, itemId);
+        session.delete(order);
         transaction.commit();
         session.close();
     }
 
-
-    public static void closeOrder(int itemId, boolean buy) {
+    private void insertItems(int orderId, List<Integer> itemsIdList) {
         Session session = HibernateUtil.currentSession();
         Transaction transaction = session.beginTransaction();
-        ItemEntity i = session.load(ItemEntity.class, itemId);
-        if (buy) {
-            i.setQuantity(i.getQuantity() - 1);
-            session.update(i);
-            if (i.getQuantity() <= 0)
-                session.delete(i);
+        String insertItemsQuery = 
+                "INSERT INTO order_item VALUES (order_id, item_id) " +
+                "VALUES (" + orderId + ", " + itemsIdList.get(0) + ") ";
+        itemsIdList.remove(0);
+        /*
+        Add more items to order if it need to
+         */
+        for (int i:
+                itemsIdList) {
+            insertItemsQuery = insertItemsQuery.concat(
+                    ", (" + orderId + ", " + i + ")"
+            );
         }
-        OrderEntity o = session.load(OrderEntity.class, itemId);
-        session.delete(o);
-        transaction.commit();
-        session.close();
+        insertItemsQuery = insertItemsQuery.concat(";");
+        Query query = session.createQuery(insertItemsQuery);
+        query.executeUpdate();
     }
 }
