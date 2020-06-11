@@ -21,18 +21,18 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User u = new User();
-        u.setUsername(request.getParameter("name"));
-        u.setPassword(request.getParameter("pswd"));
-        u.setRole("user");
+        User user = new User();
+        user.setUsername(request.getParameter("name"));
+        user.setPassword(request.getParameter("pswd"));
+        user.setRole("user");
 
-        boolean valid = userDAO.register(u);
-        u.setValid(valid);
+        boolean valid = userDAO.register(user);
+        user.setValid(valid);
 
         if (valid) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("currentSessionUser", u);
-            session.setAttribute("userRole", u.getRole());
+            session.setAttribute("currentSessionUser", user);
+            session.setAttribute("userRole", user.getRole());
             response.sendRedirect("http://localhost:8080/store");
         } else {
             response.setContentType("application/json");
