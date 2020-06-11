@@ -5,6 +5,7 @@ import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,26 +21,17 @@ public class OrderDAO implements DAO {
     public void createOrder(Order o) {
         int userId = o.getUserId();
         List<Integer> itemsList = o.getOrderedItemsId();
-        String createOrderQuery =
-                "INSERT INTO order VALUES (user_id, item_id) " +
-                "VALUES (" + userId + ", " + itemsList.get(0) + ") ";
-        itemsList.remove(0);
-        /*
-        Add more items to order if it need to
-         */
-        for (int i:
-            itemsList) {
-            createOrderQuery = createOrderQuery.concat(
-                    ", (" + userId + ", " + i + ")"
-            );
-        }
-        createOrderQuery = createOrderQuery.concat(";");
-
+        final String createOrderQuery =
+                "INSERT INTO \"order\" VALUES (user_id) " +
+                "VALUES (" + userId + ");";
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
             statement.executeUpdate(createOrderQuery);
-
+            // retrieve an id of newly inserted record
+            result = statement.getGeneratedKeys();
+            int orderId = result.getInt(1);
+            insertItems(orderId, itemsList);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -56,14 +48,14 @@ public class OrderDAO implements DAO {
         Order o = new Order();
         List<Integer> itemsList = new ArrayList<>();
         final String getOrderQuery = "SELECT " +
-                "user_id, " +
-                "item_id, " +
-                " FROM \"order\" WHERE user_id=" + userId + ";";
+                "user_id" +
+                " FROM \"order\" o WHERE user_id=" + userId + " " +
+                "INNER JOIN order_item oi " +
+                "ON o.id = oi.order_id;";
         try {
             connection = ConnectionManager.getConnection();
             statement = connection.createStatement();
             result = statement.executeQuery(getOrderQuery);
-
             /*
             Iterate through result and fill list
              */
@@ -86,16 +78,14 @@ public class OrderDAO implements DAO {
     /*
     Remove item from order if order canceled or finished
      */
-    public void closeOrder(int userId, int itemId, boolean buy) {
+    public void closeOrder(int orderId, int userId, int itemId, boolean buy) {
         final String removeItemQuery =
                 "DELETE FROM \"order\"" +
-                        "WHERE user_id=" + userId + " AND item_id=" + itemId + ";";
-
+                        "WHERE user_id=" + userId + " AND id=" + orderId + ";";
         final String reduceItemQuantityQuery =
                 "UPDATE item " +
                         "ON quantity = ((SELECT quantity FROM item WHERE id=" + itemId + ") - 1) " +
                         "WHERE id=" + itemId + ";";
-
         final String getItemQuery =
                 "SELECT " +
                         "*" +
@@ -115,6 +105,28 @@ public class OrderDAO implements DAO {
             close(result);
             close(statement);
             close(connection);
+        }
+    }
+
+    private static void insertItems(int orderId, List<Integer> itemsList) {
+        String createOrderQuery =
+                "INSERT INTO order_item VALUES (order_id, item_id) " +
+                        "VALUES (" + orderId + ", " + itemsList.get(0) + ") ";
+        itemsList.remove(0);
+        /*
+        Add more items to order if it need to
+         */
+        for (int i:
+                itemsList) {
+            createOrderQuery = createOrderQuery.concat(
+                    ", (" + orderId + ", " + i + ")"
+            );
+        }
+        createOrderQuery = createOrderQuery.concat(";");
+        try {
+            statement.executeUpdate(createOrderQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
