@@ -15,21 +15,21 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
 
-    private static UserDAO userDAO;
+    private static UserDAO userDAO = UserDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User u = new User();
-        u.setUsername(request.getParameter("name"));
-        u.setPassword(request.getParameter("pswd"));
+        User user = new User();
+        user.setUsername(request.getParameter("name"));
+        user.setPassword(request.getParameter("pswd"));
 
         try {
-            u = userDAO.login(u);
+            user = userDAO.login(user);
 
-            if (u.isValid()) {
+            if (user.isValid()) {
                 HttpSession session = request.getSession(true);
-                session.setAttribute("currentSessionUser", u);
-                session.setAttribute("userRole", u.getRole());
+                session.setAttribute("currentSessionUser", user);
+                session.setAttribute("userRole", user.getRole());
                 response.sendRedirect("http://localhost:8080/store");
             } else
                 response.sendRedirect("register.jsp");

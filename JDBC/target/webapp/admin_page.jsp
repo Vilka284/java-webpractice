@@ -1,4 +1,4 @@
-<%@ page import="com.andrii.module.user.User" %>
+<%@ page import="com.andrii.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,7 +9,6 @@
 
             $('#manager').click(function () {
                 var userId = document.getElementById('userId').value;
-                var roleAction = 'add_manager';
                 var radios = document.getElementsByName('role');
                 for (var i = 0, length = radios.length; i < length; i++) {
                     if (radios[i].checked) {
@@ -18,13 +17,19 @@
                     }
                 }
 
+                var ajaxType;
+                if (radios === "add_manager") {
+                    ajaxType = 'post';
+                } else {
+                    ajaxType = 'delete';
+                }
+
                 $.ajax({
-                    type: 'post',
-                    url: 'http://localhost:8080/store',
+                    type: ajaxType,
+                    url: 'http://localhost:8080/store/manage',
                     data: {
                         myData: JSON.stringify(
                             {
-                                'action': roleAction,
                                 'userId': userId
                             })
                     },
@@ -46,11 +51,10 @@
 
                 $.ajax({
                     type: 'post',
-                    url: 'http://localhost:8080/store',
+                    url: 'http://localhost:8080/store/item',
                     data: {
                         myData: JSON.stringify(
                             {
-                                'action': 'add_item',
                                 'itemName': document.getElementById('addItemName').value,
                                 'itemQuantity': document.getElementById('addItemQ').value,
                                 'itemPrice': document.getElementById('addItemPrice').value,
@@ -72,12 +76,11 @@
             $('#removeItem').click(function () {
 
                 $.ajax({
-                    type: 'post',
-                    url: 'http://localhost:8080/store',
+                    type: 'delete',
+                    url: 'http://localhost:8080/store/item',
                     data: {
                         myData: JSON.stringify(
                             {
-                                'action': 'remove_item',
                                 'itemId': document.getElementById('removeItem').value
                             })
                     },

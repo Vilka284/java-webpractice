@@ -1,7 +1,6 @@
 package com.andrii.dao;
 
 import com.andrii.model.Order;
-import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,13 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class OrderDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
     private static ItemDAO itemDAO;
+    private static OrderDAO instance;
+
+    public static OrderDAO getInstance() {
+        if (instance == null) {
+            instance = new OrderDAO();
+        }
+        return instance;
+    }
 
     public void createOrder(Order o) {
         int userId = o.getUserId();
@@ -45,7 +51,7 @@ public class OrderDAO implements DAO {
     Find orders of user
      */
     public Order getOrderByUserId(int userId) {
-        Order o = new Order();
+        Order order = new Order();
         List<Integer> itemsList = new ArrayList<>();
         final String getOrderQuery = "SELECT " +
                 "user_id" +
@@ -62,8 +68,8 @@ public class OrderDAO implements DAO {
             while (result.next()) {
                 itemsList.add(result.getInt("item_id"));
             }
-            o.setUserId(result.getInt("user_id"));
-            o.setOrderedItemsId(itemsList);
+            order.setUserId(result.getInt("user_id"));
+            order.setOrderedItemsId(itemsList);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,7 +78,7 @@ public class OrderDAO implements DAO {
             close(statement);
             close(connection);
         }
-        return o;
+        return order;
     }
 
     /*

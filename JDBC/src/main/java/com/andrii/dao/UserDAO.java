@@ -1,22 +1,28 @@
 package com.andrii.dao;
 
 import com.andrii.model.User;
-import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class UserDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
+    private static UserDAO instance;
 
-    public User login(User u) {
-        String username = u.getUsername();
-        String password = u.getPassword();
+    public static UserDAO getInstance() {
+        if (instance == null) {
+            instance = new UserDAO();
+        }
+        return instance;
+    }
+
+    public User login(User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
         final String getUserQuery =
                         "SELECT " +
                         "*" +
@@ -39,10 +45,10 @@ public class UserDAO implements DAO {
 
                 result = statement.executeQuery(getUserRoleQuery);
                 if (result.next())
-                    u.setRole(result.getString("role_name"));
+                    user.setRole(result.getString("role_name"));
             }
 
-            u.setValid(check);
+            user.setValid(check);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -51,12 +57,12 @@ public class UserDAO implements DAO {
             close(connection);
         }
 
-        return u;
+        return user;
     }
 
-    public boolean register(User u) {
-        String username = u.getUsername();
-        String password = u.getPassword();
+    public boolean register(User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
         final String getUserQuery =
                         "SELECT " +
                         " * " +

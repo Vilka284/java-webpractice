@@ -1,7 +1,6 @@
 package com.andrii.dao;
 
 import com.andrii.model.Item;
-import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,15 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class ItemDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
+    private static ItemDAO instance;
+
+    public static ItemDAO getInstance() {
+        if (instance == null) {
+            instance = new ItemDAO();
+        }
+        return instance;
+    }
 
     public Item getItemById(int id) {
-        Item i = new Item();
+        Item item = new Item();
         final String getItemQuery =
                 "SELECT " +
                         "*" +
@@ -28,10 +34,10 @@ public class ItemDAO implements DAO {
             statement = connection.createStatement();
             result = statement.executeQuery(getItemQuery);
 
-            i.setName(result.getString("item_name"));
-            i.setPrice(result.getFloat("price"));
-            i.setQuantity(result.getInt("quantity"));
-            i.setGroupId(result.getInt("group_id"));
+            item.setName(result.getString("item_name"));
+            item.setPrice(result.getFloat("price"));
+            item.setQuantity(result.getInt("quantity"));
+            item.setGroupId(result.getInt("group_id"));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -40,7 +46,7 @@ public class ItemDAO implements DAO {
             close(connection);
         }
 
-        return i;
+        return item;
     }
 
     public List<Item> getItemsByGroupId(int id) {

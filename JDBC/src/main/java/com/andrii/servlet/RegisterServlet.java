@@ -4,6 +4,7 @@ import com.andrii.dao.UserDAO;
 import com.andrii.model.User;
 import com.google.gson.JsonObject;
 
+import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
-    private static UserDAO userDAO;
+    private static UserDAO userDAO = UserDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

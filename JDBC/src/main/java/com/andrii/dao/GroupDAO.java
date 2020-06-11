@@ -2,7 +2,6 @@ package com.andrii.dao;
 
 import com.andrii.model.Group;
 import com.andrii.model.Item;
-import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,12 +10,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class GroupDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
+    private static GroupDAO instance;
+
+    public static GroupDAO getInstance() {
+        if (instance == null) {
+            instance = new GroupDAO();
+        }
+        return instance;
+    }
 
     public Group getGroup(Item item) {
         Group group = new Group();

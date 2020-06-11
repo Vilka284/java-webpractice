@@ -22,7 +22,7 @@ import static com.andrii.servlet.MainPageServlet.*;
 @WebServlet(name = "ItemServlet")
 public class ItemServlet extends HttpServlet {
 
-    private static ItemDAO itemDAO;
+    private static ItemDAO itemDAO = ItemDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

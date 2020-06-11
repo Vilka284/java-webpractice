@@ -18,7 +18,7 @@ import static com.andrii.servlet.MainPageServlet.returnJsonResponse;
 @WebServlet(name = "ManagementServlet")
 public class ManagementServlet extends HttpServlet {
 
-    private static UserDAO userDAO;
+    private static UserDAO userDAO = UserDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

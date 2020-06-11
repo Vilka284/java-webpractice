@@ -1,6 +1,6 @@
 <%@ page language="java"
          contentType="text/html;"
-         import="com.andrii.module.user.User"
+         import="com.andrii.model.User"
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -21,8 +21,8 @@
                     var group = e.options[e.selectedIndex].value;
 
                     $.ajax({
-                        type: 'post',
-                        url: 'http://localhost:8080/store',
+                        type: 'get',
+                        url: 'http://localhost:8080/store/item',
                         data: {
                             myData: JSON.stringify(
                                 {
@@ -32,7 +32,7 @@
                         },
                         dataType: "json",
                         success: function (data) {
-                            alert(data.message);
+                            console.log(data.message);
                         },
                         statusCode: {
                             400: function (data) {
