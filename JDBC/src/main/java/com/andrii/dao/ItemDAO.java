@@ -1,6 +1,7 @@
 package com.andrii.dao;
 
 import com.andrii.model.Item;
+import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,13 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton(style = Singleton.Style.HOLDER)
 public class ItemDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
 
-    public static Item getItemById(int id) {
+    public Item getItemById(int id) {
         Item i = new Item();
         final String getItemQuery =
                 "SELECT " +
@@ -33,15 +35,15 @@ public class ItemDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
 
         return i;
     }
 
-    public static List<Item> getItemsByGroupId(int id) {
+    public List<Item> getItemsByGroupId(int id) {
         List<Item> itemList = null;
         final String getItemsQuery =
                 "SELECT " +
@@ -58,15 +60,15 @@ public class ItemDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
 
         return itemList;
     }
 
-    public static void insert(Item item) {
+    public void insert(Item item) {
         final String insertItemQuery =
                 "INSERT INTO item (item_name, price, quantity, group_id) " +
                         "VALUES (\'" + item.getName() + "\', "
@@ -81,14 +83,14 @@ public class ItemDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
 
     }
 
-    public static void removeItem(int id) {
+    public void removeItem(int id) {
         final String deleteItemQuery =
                 "DELETE FROM item " +
                         "WHERE id=" + id + ";";
@@ -100,9 +102,9 @@ public class ItemDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
     }
 

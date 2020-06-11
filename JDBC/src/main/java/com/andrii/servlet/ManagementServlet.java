@@ -18,6 +18,8 @@ import static com.andrii.servlet.MainPageServlet.returnJsonResponse;
 @WebServlet(name = "ManagementServlet")
 public class ManagementServlet extends HttpServlet {
 
+    private static UserDAO userDAO;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject data = new JSONObject(request.getParameter("myData"));
@@ -27,7 +29,7 @@ public class ManagementServlet extends HttpServlet {
         String message = "unknown action";
 
         if (ifAdmin(role)) {
-            UserDAO.setRole(
+            userDAO.setRole(
                     data.getInt("userId"),
                     2
             );
@@ -51,7 +53,7 @@ public class ManagementServlet extends HttpServlet {
         String message = "unknown action";
 
         if (ifAdmin(role)) {
-            UserDAO.setRole(
+            userDAO.setRole(
                     data.getInt("userId"),
                     1
             );

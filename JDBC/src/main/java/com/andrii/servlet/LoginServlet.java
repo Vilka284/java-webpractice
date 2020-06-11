@@ -15,14 +15,16 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
 
+    private static UserDAO userDAO;
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User u = new User();
         u.setUsername(request.getParameter("name"));
         u.setPassword(request.getParameter("pswd"));
 
         try {
-            u = UserDAO.login(u);
+            u = userDAO.login(u);
 
             if (u.isValid()) {
                 HttpSession session = request.getSession(true);
@@ -36,6 +38,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("login.jsp");
         view.forward(request, response);

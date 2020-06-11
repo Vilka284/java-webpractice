@@ -17,13 +17,16 @@ import java.io.PrintWriter;
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
+    private static UserDAO userDAO;
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User u = new User();
         u.setUsername(request.getParameter("name"));
         u.setPassword(request.getParameter("pswd"));
         u.setRole("user");
 
-        boolean valid = UserDAO.register(u);
+        boolean valid = userDAO.register(u);
         u.setValid(valid);
 
         if (valid) {
@@ -42,6 +45,7 @@ public class RegisterServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("register.jsp");
         view.forward(request, response);

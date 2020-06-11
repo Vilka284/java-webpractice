@@ -1,6 +1,7 @@
 package com.andrii.dao;
 
 import com.andrii.model.Order;
+import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,13 +9,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAO {
+@Singleton(style = Singleton.Style.HOLDER)
+public class OrderDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
+    private static ItemDAO itemDAO;
 
-    public static void createOrder(Order o) {
+    public void createOrder(Order o) {
         int userId = o.getUserId();
         List<Integer> itemsList = o.getOrderedItemsId();
         String createOrderQuery =
@@ -40,16 +43,16 @@ public class OrderDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
     }
 
     /*
     Find orders of user
      */
-    public static Order getOrderByUserId(int userId) {
+    public Order getOrderByUserId(int userId) {
         Order o = new Order();
         List<Integer> itemsList = new ArrayList<>();
         final String getOrderQuery = "SELECT " +
@@ -73,9 +76,9 @@ public class OrderDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
         return o;
     }
@@ -83,7 +86,7 @@ public class OrderDAO {
     /*
     Remove item from order if order canceled or finished
      */
-    public static void closeOrder(int userId, int itemId, boolean buy) {
+    public void closeOrder(int userId, int itemId, boolean buy) {
         final String removeItemQuery =
                 "DELETE FROM \"order\"" +
                         "WHERE user_id=" + userId + " AND item_id=" + itemId + ";";
@@ -105,13 +108,13 @@ public class OrderDAO {
                 statement.executeUpdate(reduceItemQuantityQuery);
             result = statement.executeQuery(getItemQuery);
             if (result.getInt("quantity") <= 0)
-                ItemDAO.removeItem(itemId);
+                itemDAO.removeItem(itemId);
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
     }
 

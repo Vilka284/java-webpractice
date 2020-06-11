@@ -20,6 +20,10 @@ import static com.andrii.servlet.MainPageServlet.returnJsonResponse;
 
 @WebServlet(name = "OrderServlet")
 public class OrderServlet extends HttpServlet {
+
+    private static OrderDAO orderDAO;
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject data = new JSONObject(request.getParameter("myData"));
         HttpSession session = request.getSession();
@@ -29,7 +33,7 @@ public class OrderServlet extends HttpServlet {
         for (int i = 0; i < arr.length(); i++) {
             itemsIdList.add(arr.getJSONObject(i).getInt("id"));
         }
-        OrderDAO.createOrder(new Order(
+        orderDAO.createOrder(new Order(
                 data.getInt("user_id"),
                 itemsIdList
         ));
@@ -37,12 +41,13 @@ public class OrderServlet extends HttpServlet {
         returnJsonResponse("ok", response);
     }
 
+    @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject data = new JSONObject(request.getParameter("myData"));
         HttpSession session = request.getSession();
         User u = (User) (session.getAttribute("currentSessionUser"));
 
-        OrderDAO.closeOrder(
+        orderDAO.closeOrder(
                 u.getId(),
                 data.getInt("item_id"),
                 true
@@ -51,13 +56,14 @@ public class OrderServlet extends HttpServlet {
         returnJsonResponse("ok", response);
     }
 
+    @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject data = new JSONObject(request.getParameter("myData"));
         HttpSession session = request.getSession();
         User u = (User) (session.getAttribute("currentSessionUser"));
         String message = "unknown action";
 
-        OrderDAO.closeOrder(
+        orderDAO.closeOrder(
                 u.getId(),
                 data.getInt("item_id"),
                 false

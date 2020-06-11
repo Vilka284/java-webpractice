@@ -22,6 +22,8 @@ import static com.andrii.servlet.MainPageServlet.*;
 @WebServlet(name = "ItemServlet")
 public class ItemServlet extends HttpServlet {
 
+    private static ItemDAO itemDAO;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject data = new JSONObject(request.getParameter("myData"));
@@ -30,7 +32,7 @@ public class ItemServlet extends HttpServlet {
         String message = "unknown action";
 
         if (ifAdmin(role) || ifManager(role)) {
-            ItemDAO.insert(
+            itemDAO.insert(
                     new Item(
                             data.getString("itemName"),
                             data.getInt("itemGroupId"),
@@ -50,7 +52,7 @@ public class ItemServlet extends HttpServlet {
         JsonObject json = new JsonObject();
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("userRole");
-        List<Item> itemsList = ItemDAO.getItemsByGroupId(data.getInt("groupId"));
+        List<Item> itemsList = itemDAO.getItemsByGroupId(data.getInt("groupId"));
 
         for (Item i:
                 itemsList) {
@@ -74,7 +76,7 @@ public class ItemServlet extends HttpServlet {
         String message = "unknown action";
 
         if (ifAdmin(role) || ifManager(role)) {
-            ItemDAO.removeItem(
+            itemDAO.removeItem(
                     data.getInt("itemId")
             );
             message = "ok";

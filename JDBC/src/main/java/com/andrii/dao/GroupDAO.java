@@ -2,6 +2,7 @@ package com.andrii.dao;
 
 import com.andrii.model.Group;
 import com.andrii.model.Item;
+import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,13 +11,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton(style = Singleton.Style.HOLDER)
 public class GroupDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
 
-    public static Group getGroup(Item item) {
+    public Group getGroup(Item item) {
         Group group = new Group();
         final String getGroupQuery =
                 "SELECT" +
@@ -33,9 +35,9 @@ public class GroupDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
         return group;
     }
@@ -46,7 +48,7 @@ public class GroupDAO implements DAO {
     [bullets, weapon, hunting], Where "hunting" it is the parent group
     and id = null
      */
-    public static List<Group> getGroupPath(Item item) {
+    public List<Group> getGroupPath(Item item) {
         List<Group> groupPath = new ArrayList<>();
         int groupId = item.getGroupId();
         final String getGroupPathQuery =
@@ -67,9 +69,9 @@ public class GroupDAO implements DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }  finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
         return groupPath;
     }

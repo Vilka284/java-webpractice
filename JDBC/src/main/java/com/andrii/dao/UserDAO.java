@@ -1,18 +1,20 @@
 package com.andrii.dao;
 
 import com.andrii.model.User;
+import lombok.Singleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class UserDAO {
+@Singleton(style = Singleton.Style.HOLDER)
+public class UserDAO implements DAO {
 
     private static Connection connection;
     private static ResultSet result;
     private static Statement statement;
 
-    public static User login(User u) {
+    public User login(User u) {
         String username = u.getUsername();
         String password = u.getPassword();
         final String getUserQuery =
@@ -44,15 +46,15 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
 
         return u;
     }
 
-    public static boolean register(User u) {
+    public boolean register(User u) {
         String username = u.getUsername();
         String password = u.getPassword();
         final String getUserQuery =
@@ -76,14 +78,14 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
         return true;
     }
 
-    public static void setRole(int userId, int roleId) {
+    public void setRole(int userId, int roleId) {
         final String updateUserRoleQuery =
                         "UPDATE \"user\" " +
                         " SET role_id=" + roleId +
@@ -96,9 +98,9 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(result);
-            DAO.close(statement);
-            DAO.close(connection);
+            close(result);
+            close(statement);
+            close(connection);
         }
     }
 
