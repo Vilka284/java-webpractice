@@ -48,7 +48,6 @@ public class GroupDAO implements DAO {
      */
     public static List<Group> getGroupPath(Item item) {
         List<Group> groupPath = new ArrayList<>();
-        Group group = new Group();
         int groupId = item.getGroupId();
         final String getGroupPathQuery =
                 "SELECT" +
