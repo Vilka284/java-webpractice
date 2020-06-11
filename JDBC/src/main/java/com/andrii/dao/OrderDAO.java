@@ -109,7 +109,7 @@ public class OrderDAO implements DAO {
     }
 
     private static void insertItems(int orderId, List<Integer> itemsList) {
-        String createOrderQuery =
+        String insertItemsQuery =
                 "INSERT INTO order_item VALUES (order_id, item_id) " +
                         "VALUES (" + orderId + ", " + itemsList.get(0) + ") ";
         itemsList.remove(0);
@@ -118,13 +118,13 @@ public class OrderDAO implements DAO {
          */
         for (int i:
                 itemsList) {
-            createOrderQuery = createOrderQuery.concat(
+            insertItemsQuery = insertItemsQuery.concat(
                     ", (" + orderId + ", " + i + ")"
             );
         }
-        createOrderQuery = createOrderQuery.concat(";");
+        insertItemsQuery = insertItemsQuery.concat(";");
         try {
-            statement.executeUpdate(createOrderQuery);
+            statement.executeUpdate(insertItemsQuery);
         } catch (SQLException e) {
             e.printStackTrace();
         }
