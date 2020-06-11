@@ -56,7 +56,7 @@ public class ItemServlet extends HttpServlet {
                 itemsList) {
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String jsonItem = ow.writeValueAsString(i);
-            json.addProperty(i.getItemName(), jsonItem);
+            json.addProperty(i.getName(), jsonItem);
         }
 
         response.setContentType("application/json");

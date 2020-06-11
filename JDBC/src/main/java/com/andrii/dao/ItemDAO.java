@@ -26,16 +26,16 @@ public class ItemDAO implements DAO {
             statement = connection.createStatement();
             result = statement.executeQuery(getItemQuery);
 
-            i.setItemName(result.getString("item_name"));
+            i.setName(result.getString("item_name"));
             i.setPrice(result.getFloat("price"));
             i.setQuantity(result.getInt("quantity"));
             i.setGroupId(result.getInt("group_id"));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
 
         return i;
@@ -58,9 +58,9 @@ public class ItemDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
 
         return itemList;
@@ -69,7 +69,7 @@ public class ItemDAO implements DAO {
     public static void insert(Item item) {
         final String insertItemQuery =
                 "INSERT INTO item (item_name, price, quantity, group_id) " +
-                        "VALUES (\'" + item.getItemName() + "\', "
+                        "VALUES (\'" + item.getName() + "\', "
                         + item.getPrice() + ", "
                         + item.getQuantity() + ", "
                         + item.getGroupId() + ");";
@@ -81,9 +81,9 @@ public class ItemDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
 
     }
@@ -100,9 +100,9 @@ public class ItemDAO implements DAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
     }
 
@@ -112,7 +112,7 @@ public class ItemDAO implements DAO {
         try {
             while (result.next()) {
                 item = new Item();
-                item.setItemName(result.getString("item_name"));
+                item.setName(result.getString("item_name"));
                 item.setPrice(result.getFloat("price"));
                 item.setQuantity(result.getInt("quantity"));
                 item.setGroupId(groupId);

@@ -40,9 +40,9 @@ public class OrderDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
     }
 
@@ -73,9 +73,9 @@ public class OrderDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
         return o;
     }
@@ -109,9 +109,9 @@ public class OrderDAO {
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
     }
 

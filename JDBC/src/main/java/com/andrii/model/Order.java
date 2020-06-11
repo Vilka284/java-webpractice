@@ -10,9 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
-
     private int userId;
-
     private List<Integer> orderedItemsId;
 
 }

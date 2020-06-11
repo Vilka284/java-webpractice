@@ -44,9 +44,9 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
 
         return u;
@@ -76,9 +76,9 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
         return true;
     }
@@ -96,9 +96,9 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DAO.close(connection);
             DAO.close(result);
             DAO.close(statement);
+            DAO.close(connection);
         }
     }
 

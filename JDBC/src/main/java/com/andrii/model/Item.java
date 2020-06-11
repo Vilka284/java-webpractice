@@ -6,20 +6,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Item {
-
-    @Getter
-    @Setter
-    private String itemName;
-
-    @Getter
-    @Setter
+    private String name;
     private int groupId;
-
-    @Getter
-    @Setter
     private float price;
-
-    @Getter
-    @Setter
     private int quantity;
 }
