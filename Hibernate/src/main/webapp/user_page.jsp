@@ -2,6 +2,7 @@
          contentType="text/html;"
          import="com.andrii.module.user.User"
 %>
+<%@ page import="com.andrii.entity.User" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -51,7 +52,7 @@
 <center>
     <% User currentUser = (User) (session.getAttribute("currentSessionUser"));%>
 
-    Welcome <%= currentUser.getUsername() %>
+    Welcome <%= currentUser.getUserName() %>
     <br><br>
     Group:
     <label for="group">Choose a group:</label>
