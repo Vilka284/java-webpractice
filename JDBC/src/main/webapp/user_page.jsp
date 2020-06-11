@@ -21,8 +21,8 @@
                     var group = e.options[e.selectedIndex].value;
 
                     $.ajax({
-                        type: 'post',
-                        url: 'http://localhost:8080/store',
+                        type: 'get',
+                        url: 'http://localhost:8080/store/item',
                         data: {
                             myData: JSON.stringify(
                                 {
