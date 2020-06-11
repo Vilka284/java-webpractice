@@ -1,12 +1,18 @@
 package com.andrii.dao;
 
-import com.andrii.module.item.Item;
-import com.andrii.module.order.Order;
+import com.andrii.model.Order;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAO extends ConnectionCloser {
+public class OrderDAO {
+
+    private static Connection connection;
+    private static ResultSet result;
+    private static Statement statement;
 
     public static void createOrder(Order o) {
         int userId = o.getUserId();
@@ -34,7 +40,9 @@ public class OrderDAO extends ConnectionCloser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(connection, result, statement);
+            DAO.close(connection);
+            DAO.close(result);
+            DAO.close(statement);
         }
     }
 
@@ -44,7 +52,7 @@ public class OrderDAO extends ConnectionCloser {
     public static Order getOrderByUserId(int userId) {
         Order o = new Order();
         List<Integer> itemsList = new ArrayList<>();
-        String getOrderQuery = "SELECT " +
+        final String getOrderQuery = "SELECT " +
                 "user_id, " +
                 "item_id, " +
                 " FROM \"order\" WHERE user_id=" + userId + ";";
@@ -65,7 +73,9 @@ public class OrderDAO extends ConnectionCloser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(connection, result, statement);
+            DAO.close(connection);
+            DAO.close(result);
+            DAO.close(statement);
         }
         return o;
     }
@@ -74,16 +84,16 @@ public class OrderDAO extends ConnectionCloser {
     Remove item from order if order canceled or finished
      */
     public static void closeOrder(int userId, int itemId, boolean buy) {
-        String removeItemQuery =
+        final String removeItemQuery =
                 "DELETE FROM \"order\"" +
                         "WHERE user_id=" + userId + " AND item_id=" + itemId + ";";
 
-        String reduceItemQuantityQuery =
+        final String reduceItemQuantityQuery =
                 "UPDATE item " +
                         "ON quantity = ((SELECT quantity FROM item WHERE id=" + itemId + ") - 1) " +
                         "WHERE id=" + itemId + ";";
 
-        String getItemQuery =
+        final String getItemQuery =
                 "SELECT " +
                         "*" +
                         " FROM item WHERE id=" + itemId + ";";
@@ -99,7 +109,9 @@ public class OrderDAO extends ConnectionCloser {
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(connection, result, statement);
+            DAO.close(connection);
+            DAO.close(result);
+            DAO.close(statement);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.andrii.module.user;
+package com.andrii.model;
 
 
 import lombok.Data;
@@ -10,23 +10,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 
-    @Getter
-    @Setter
     private int id;
 
-    @Getter
-    @Setter
     private String username;
 
-    @Getter
-    @Setter
     private String password;
 
-    @Getter
-    @Setter
     private String role;
 
-    @Getter
-    @Setter
     private boolean valid;
 }

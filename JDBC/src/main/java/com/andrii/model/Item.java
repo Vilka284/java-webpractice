@@ -1,4 +1,4 @@
-package com.andrii.module.item;
+package com.andrii.model;
 
 import lombok.*;
 

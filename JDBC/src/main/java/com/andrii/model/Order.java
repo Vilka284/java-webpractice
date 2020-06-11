@@ -1,4 +1,4 @@
-package com.andrii.module.order;
+package com.andrii.model;
 
 
 import lombok.*;
@@ -11,12 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Order {
 
-    @Getter
-    @Setter
     private int userId;
 
-    @Getter
-    @Setter
     private List<Integer> orderedItemsId;
 
 }

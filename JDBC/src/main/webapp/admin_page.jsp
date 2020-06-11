@@ -1,4 +1,4 @@
-<%@ page import="com.andrii.module.user.User" %>
+<%@ page import="com.andrii.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

@@ -1,6 +1,6 @@
 <%@ page language="java"
          contentType="text/html;"
-         import="com.andrii.module.user.User"
+         import="com.andrii.model.User"
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

@@ -1,7 +1,7 @@
 package com.andrii.servlet;
 
 import com.andrii.dao.UserDAO;
-import com.andrii.module.user.User;
+import com.andrii.model.User;
 import com.google.gson.JsonObject;
 
 import javax.servlet.RequestDispatcher;

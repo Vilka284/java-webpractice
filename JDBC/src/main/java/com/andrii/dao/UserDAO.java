@@ -1,13 +1,21 @@
 package com.andrii.dao;
 
-import com.andrii.module.user.User;
+import com.andrii.model.User;
 
-public class UserDAO extends ConnectionCloser {
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class UserDAO {
+
+    private static Connection connection;
+    private static ResultSet result;
+    private static Statement statement;
 
     public static User login(User u) {
         String username = u.getUsername();
         String password = u.getPassword();
-        String getUserQuery =
+        final String getUserQuery =
                         "SELECT " +
                         "*" +
                         " FROM \"user\"" +
@@ -21,7 +29,7 @@ public class UserDAO extends ConnectionCloser {
             boolean check = result.next();
             if (check) {
                 int role = result.getInt("role_id");
-                String getUserRoleQuery =
+                final String getUserRoleQuery =
                         "SELECT " +
                                 "role_name" +
                                 " FROM role" +
@@ -36,7 +44,9 @@ public class UserDAO extends ConnectionCloser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(connection, result, statement);
+            DAO.close(connection);
+            DAO.close(result);
+            DAO.close(statement);
         }
 
         return u;
@@ -45,12 +55,12 @@ public class UserDAO extends ConnectionCloser {
     public static boolean register(User u) {
         String username = u.getUsername();
         String password = u.getPassword();
-        String getUserQuery =
+        final String getUserQuery =
                         "SELECT " +
                         " * " +
                         " FROM \"user\" " +
                         " WHERE user_name=\'" + username + "\';";
-        String insertUserQuery =
+        final String insertUserQuery =
                 "INSERT INTO \"user\" (user_name, password, role_id) " +
                 "VALUES (\'" + username + "\', \'" + password + "\', 1);";
 
@@ -66,13 +76,15 @@ public class UserDAO extends ConnectionCloser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(connection, result, statement);
+            DAO.close(connection);
+            DAO.close(result);
+            DAO.close(statement);
         }
         return true;
     }
 
     public static void setRole(int userId, int roleId) {
-        String updateUserRoleQuery =
+        final String updateUserRoleQuery =
                         "UPDATE \"user\" " +
                         " SET role_id=" + roleId +
                         " WHERE id=" + userId + ";";
@@ -84,7 +96,9 @@ public class UserDAO extends ConnectionCloser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(connection, result, statement);
+            DAO.close(connection);
+            DAO.close(result);
+            DAO.close(statement);
         }
     }
 
