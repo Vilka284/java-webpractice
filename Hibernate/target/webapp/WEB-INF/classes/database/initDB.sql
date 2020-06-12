@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS "group"
 (
     id              INT PRIMARY KEY,
     group_name      VARCHAR(50) NOT NULL,
-    parent_group_id INT NULL, /* Allow null value to be able insert first data */
+    parent_group_id INT         NULL, /* Allow null value to be able insert first data */
     FOREIGN KEY (parent_group_id) REFERENCES "group" (id) ON DELETE CASCADE
 );
 
@@ -39,7 +39,14 @@ CREATE TABLE IF NOT EXISTS "order"
 (
     id      SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    item_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
-    FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS order_item
+(
+    id       SERIAL PRIMARY KEY,
+    item_id  INT NOT NULL,
+    order_id INT NOT NULL,
+    FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES "order" (id) ON DELETE CASCADE
 );

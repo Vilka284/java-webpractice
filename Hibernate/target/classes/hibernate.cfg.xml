@@ -31,6 +31,6 @@
         <mapping class="com.andrii.entity.Order"/>
         <mapping class="com.andrii.entity.Role"/>
         <mapping class="com.andrii.entity.User"/>
-
+        <mapping class="com.andrii.entity.OrderItem"/>
     </session-factory>
 </hibernate-configuration>

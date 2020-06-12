@@ -1,17 +1,26 @@
 package com.andrii.dao;
 
+import com.andrii.entity.Item;
 import com.andrii.entity.Role;
 import com.andrii.entity.User;
 import com.andrii.util.HibernateUtil;
-import lombok.Singleton;
+import com.github.fluent.hibernate.transformer.FluentHibernateResultTransformer;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class UserDAO {
+
+    private static UserDAO instance;
+
+    public static UserDAO getInstance() {
+        if (instance == null) {
+            instance = new UserDAO();
+        }
+        return instance;
+    }
 
     public boolean login(User user) {
         List<User> usersList = getUsers();
@@ -49,7 +58,9 @@ public class UserDAO {
         List<User> usersList;
         Session session = HibernateUtil.currentSession();
         Query query = session.createQuery("from User");
-        usersList = query.list();
+        usersList = query
+                .setResultTransformer(new FluentHibernateResultTransformer(Item.class))
+                .list();
         session.close();
         return usersList;
     }

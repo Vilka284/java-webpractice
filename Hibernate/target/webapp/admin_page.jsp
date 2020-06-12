@@ -1,4 +1,5 @@
-<%@ page import="com.andrii.module.user.User" %>
+<%@ page import="com.andrii.model.User" %>
+<%@ page import="com.andrii.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -6,10 +7,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
             $('#manager').click(function () {
                 var userId = document.getElementById('userId').value;
-                var roleAction = 'add_manager';
                 var radios = document.getElementsByName('role');
                 for (var i = 0, length = radios.length; i < length; i++) {
                     if (radios[i].checked) {
@@ -17,14 +16,18 @@
                         break;
                     }
                 }
-
+                var ajaxType;
+                if (radios === "add_manager") {
+                    ajaxType = 'post';
+                } else {
+                    ajaxType = 'delete';
+                }
                 $.ajax({
-                    type: 'post',
-                    url: 'http://localhost:8080/store',
+                    type: ajaxType,
+                    url: 'http://localhost:8080/store/manage',
                     data: {
                         myData: JSON.stringify(
                             {
-                                'action': roleAction,
                                 'userId': userId
                             })
                     },
@@ -39,18 +42,15 @@
                     }
                 });
             });
-
             $('#addItem').click(function () {
                 var e = document.getElementById("group");
                 var group = e.options[e.selectedIndex].value;
-
                 $.ajax({
                     type: 'post',
-                    url: 'http://localhost:8080/store',
+                    url: 'http://localhost:8080/store/item',
                     data: {
                         myData: JSON.stringify(
                             {
-                                'action': 'add_item',
                                 'itemName': document.getElementById('addItemName').value,
                                 'itemQuantity': document.getElementById('addItemQ').value,
                                 'itemPrice': document.getElementById('addItemPrice').value,
@@ -68,16 +68,13 @@
                     }
                 });
             });
-
             $('#removeItem').click(function () {
-
                 $.ajax({
-                    type: 'post',
-                    url: 'http://localhost:8080/store',
+                    type: 'delete',
+                    url: 'http://localhost:8080/store/item',
                     data: {
                         myData: JSON.stringify(
                             {
-                                'action': 'remove_item',
                                 'itemId': document.getElementById('removeItem').value
                             })
                     },
@@ -92,7 +89,6 @@
                     }
                 });
             });
-
         });
     </script>
 </head>
@@ -100,7 +96,7 @@
 <center>
     <% User currentUser = (User) (session.getAttribute("currentSessionUser"));%>
 
-    Welcome <%= currentUser.getUsername() %>, you are on the admin page.
+    Welcome <%= currentUser.getUserName() %>, you are on the admin page.
     <br><br>
 
     <hr>

@@ -2,12 +2,19 @@ package com.andrii.dao;
 
 import com.andrii.entity.Group;
 import com.andrii.util.HibernateUtil;
-import lombok.Singleton;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class GroupDAO {
+
+    private static GroupDAO instance;
+
+    public static GroupDAO getInstance() {
+        if (instance == null) {
+            instance = new GroupDAO();
+        }
+        return instance;
+    }
 
     public Group getGroupById(int groupId) {
         Session session = HibernateUtil.currentSession();

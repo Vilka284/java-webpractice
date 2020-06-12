@@ -3,15 +3,22 @@ package com.andrii.dao;
 import com.andrii.entity.Item;
 import com.andrii.entity.Order;
 import com.andrii.util.HibernateUtil;
-import lombok.Singleton;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.Query;
 import java.util.List;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class OrderDAO {
+
+    private static OrderDAO instance;
+
+    public static OrderDAO getInstance() {
+        if (instance == null) {
+            instance = new OrderDAO();
+        }
+        return instance;
+    }
 
     public void createOrder(Order order, List<Integer> itemsIdList) {
         Session session = HibernateUtil.currentSession();

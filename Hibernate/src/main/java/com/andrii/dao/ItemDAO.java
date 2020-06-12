@@ -5,15 +5,22 @@ import com.andrii.entity.Group;
 import com.andrii.entity.Item;
 import com.andrii.util.HibernateUtil;
 import com.github.fluent.hibernate.transformer.FluentHibernateResultTransformer;
-import lombok.Singleton;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
-@Singleton(style = Singleton.Style.HOLDER)
 public class ItemDAO {
+
+    private static ItemDAO instance;
+
+    public static ItemDAO getInstance() {
+        if (instance == null) {
+            instance = new ItemDAO();
+        }
+        return instance;
+    }
 
     public Item getItemById(int itemId){
         Session session = HibernateUtil.currentSession();
