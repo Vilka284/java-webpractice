@@ -21,7 +21,7 @@ import static com.andrii.servlet.MainPageServlet.returnJsonResponse;
 @WebServlet(name = "OrderServlet")
 public class OrderServlet extends HttpServlet {
 
-    private static OrderDAO orderDAO;
+    private static OrderDAO orderDAO = OrderDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

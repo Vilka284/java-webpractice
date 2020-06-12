@@ -4,6 +4,7 @@ import com.andrii.dao.GroupDAO;
 import com.andrii.dao.ItemDAO;
 import com.andrii.dao.RoleDAO;
 import com.andrii.entity.Item;
+import com.andrii.entity.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.JsonObject;
@@ -24,9 +25,9 @@ import static com.andrii.servlet.MainPageServlet.*;
 @WebServlet(name = "ItemServlet")
 public class ItemServlet extends HttpServlet {
 
-    private static ItemDAO itemDAO;
-    private static GroupDAO groupDAO;
-    private static RoleDAO roleDAO;
+    private static ItemDAO itemDAO = ItemDAO.getInstance();
+    private static GroupDAO groupDAO = GroupDAO.getInstance();
+    private static RoleDAO roleDAO = RoleDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

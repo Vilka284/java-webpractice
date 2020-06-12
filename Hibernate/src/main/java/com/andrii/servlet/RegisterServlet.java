@@ -19,8 +19,8 @@ import java.io.PrintWriter;
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
-    private static RoleDAO roleDAO;
-    private static UserDAO userDAO;
+    private static RoleDAO roleDAO = RoleDAO.getInstance();
+    private static UserDAO userDAO = UserDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
