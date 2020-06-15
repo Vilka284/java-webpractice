@@ -40,8 +40,8 @@ public class ItemServlet extends HttpServlet {
 
         if (admin || manager) {
             Item item = new Item();
-            item.setItemName(data.getString("itemName"));
-            item.setGroupByGroupId(groupDAO.getGroupById(data.getInt("itemGroupId")));
+            item.setName(data.getString("itemName"));
+            item.setGroup(groupDAO.getGroupById(data.getInt("itemGroupId")));
             item.setPrice((float) data.getDouble("itemPrice"));
             item.setQuantity(data.getInt("itemQuantity"));
             itemDAO.insertItem(item);
@@ -63,7 +63,7 @@ public class ItemServlet extends HttpServlet {
                 itemsList) {
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String jsonItem = ow.writeValueAsString(i);
-            json.addProperty(i.getItemName(), jsonItem);
+            json.addProperty(i.getName(), jsonItem);
         }
 
         response.setContentType("application/json");

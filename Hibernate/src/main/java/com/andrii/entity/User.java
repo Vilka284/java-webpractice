@@ -13,11 +13,11 @@ public class User {
     private int id;
     @Basic
     @Column(name = "user_name")
-    private String userName;
+    private String name;
     @Basic
     @Column(name = "password")
     private String password;
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    private Role roleByRoleId;
+    private Role role;
 }

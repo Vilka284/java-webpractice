@@ -13,9 +13,9 @@ public class OrderItem {
     private int id;
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
-    private Order orderByOrderId;
+    private Order order;
     @ManyToOne
     @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
-    private Item itemByIemId;
+    private Item item;
 
 }

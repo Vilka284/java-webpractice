@@ -16,6 +16,6 @@ public class Order {
     private int id;
     @ManyToOne
     @Column(name = "user_id")
-    private User userByUserId;
+    private User user;
 
 }

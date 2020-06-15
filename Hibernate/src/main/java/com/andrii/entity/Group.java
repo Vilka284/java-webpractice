@@ -13,9 +13,9 @@ public class Group {
     private int id;
     @Basic
     @Column(name = "group_name")
-    private String groupName;
+    private String name;
     @ManyToOne
     @JoinColumn(name = "parent_group_id", referencedColumnName = "id")
-    private Group groupByParentGroupId;
+    private Group group;
 
 }

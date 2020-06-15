@@ -25,9 +25,9 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
-        user.setUserName(request.getParameter("name"));
+        user.setName(request.getParameter("name"));
         user.setPassword(request.getParameter("pswd"));
-        user.setRoleByRoleId(roleDAO.getRoleUser());
+        user.setRole(roleDAO.getRoleUser());
 
         if (userDAO.register(user)) {
             HttpSession session = request.getSession(true);

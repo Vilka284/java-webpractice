@@ -48,7 +48,7 @@ public class UserDAO {
         Transaction transaction = session.beginTransaction();
         User user = session.load(User.class, userId);
         Role role = session.load(Role.class, roleId);
-        user.setRoleByRoleId(role);
+        user.setRole(role);
         session.update(user);
         transaction.commit();
         session.close();

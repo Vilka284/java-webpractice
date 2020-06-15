@@ -35,7 +35,7 @@ public class OrderServlet extends HttpServlet {
             itemsIdList.add(arr.getJSONObject(i).getInt("id"));
         }
         Order order = new Order();
-        order.setUserByUserId(user);
+        order.setUser(user);
         orderDAO.createOrder(order, itemsIdList);
 
         returnJsonResponse("ok", response);

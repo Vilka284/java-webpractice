@@ -20,13 +20,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
-        user.setUserName(request.getParameter("name"));
+        user.setName(request.getParameter("name"));
         user.setPassword(request.getParameter("pswd"));
 
         if (userDAO.login(user)) {
             HttpSession session = request.getSession(true);
             session.setAttribute("currentSessionUser", user);
-            session.setAttribute("userRole", user.getRoleByRoleId().getRoleName());
+            session.setAttribute("userRole", user.getRole().getName());
             response.sendRedirect("http://localhost:8080/store");
         } else {
             response.sendRedirect("register.jsp");

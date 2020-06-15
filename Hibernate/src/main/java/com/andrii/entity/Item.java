@@ -13,7 +13,7 @@ public class Item {
     private int id;
     @Basic
     @Column(name = "item_name")
-    private String itemName;
+    private String name;
     @Basic
     @Column(name = "price")
     private float price;
@@ -22,6 +22,6 @@ public class Item {
     private int quantity;
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    private Group groupByGroupId;
+    private Group group;
 
 }
