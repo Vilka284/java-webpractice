@@ -1,18 +1,22 @@
 package com.springapp.andrii.model;
 
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@RequiredArgsConstructor
 @Entity
 @Table(name = "role", schema = "public", catalog = "java_task")
 public class Role {
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Basic
     @Column(name = "role_name")
-    private String roleName;
+    @NonNull
+    private String name;
 }

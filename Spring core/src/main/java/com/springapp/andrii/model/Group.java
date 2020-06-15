@@ -10,13 +10,13 @@ import javax.persistence.*;
 public class Group {
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Basic
     @Column(name = "group_name")
-    private String groupName;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "parent_group_id", referencedColumnName = "id")
-    private Group groupByParentGroupId;
+    private Group parentGroup;
 }

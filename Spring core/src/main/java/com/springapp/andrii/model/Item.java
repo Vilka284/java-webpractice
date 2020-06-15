@@ -10,11 +10,11 @@ import javax.persistence.*;
 public class Item {
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Basic
     @Column(name = "item_name")
-    private String itemName;
+    private String name;
 
     @Basic
     @Column(name = "price")
@@ -26,5 +26,5 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    private Group groupByGroupId;
+    private Group group;
 }

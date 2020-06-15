@@ -10,11 +10,11 @@ import javax.persistence.*;
 public class User {
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Basic
     @Column(name = "user_name")
-    private String userName;
+    private String name;
 
     @Basic
     @Column(name = "password")
@@ -22,5 +22,5 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    private Role roleByRoleId;
+    private Role role;
 }

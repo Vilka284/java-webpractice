@@ -1,6 +1,5 @@
 package com.springapp.andrii.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,9 +12,9 @@ import javax.persistence.*;
 public class Order {
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @ManyToOne
     @Column(name = "user_id")
-    private User userByUserId;
+    private User user;
 }
