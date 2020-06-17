@@ -1,10 +1,7 @@
 package com.springapp.andrii.service;
 
-import com.springapp.andrii.exception.ResourceAlreadyExistsException;
 import com.springapp.andrii.exception.ResourceNotFoundException;
-import com.springapp.andrii.model.Item;
 import com.springapp.andrii.model.Order;
-import com.springapp.andrii.repository.OrderItemRepository;
 import com.springapp.andrii.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,18 +28,14 @@ public class OrderService implements IService<Order> {
 
     @Override
     public void save(Order order) {
-        if (!exist(order))
-            orderRepository.save(order);
-        else
-            throw new ResourceAlreadyExistsException("Order already exist!");
-
+        orderRepository.save(order);
     }
 
     @Override
     public void update(Order order, long id) {
         Order orderToUpdate = get(id);
         orderToUpdate.setUser(order.getUser());
-        orderRepository.save(order);
+        save(order);
     }
 
     @Override

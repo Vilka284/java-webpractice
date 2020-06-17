@@ -1,8 +1,6 @@
 package com.springapp.andrii.service;
 
-import com.springapp.andrii.exception.ResourceAlreadyExistsException;
 import com.springapp.andrii.exception.ResourceNotFoundException;
-import com.springapp.andrii.model.Role;
 import com.springapp.andrii.model.User;
 import com.springapp.andrii.repository.RoleRepository;
 import com.springapp.andrii.repository.UserRepository;
@@ -34,10 +32,7 @@ public class UserService implements IService<User> {
 
     @Override
     public void save(User user) {
-        if (!exist(user))
-            userRepository.save(user);
-        else
-            throw new ResourceAlreadyExistsException("User already exist!");
+        userRepository.save(user);
     }
 
     @Override
