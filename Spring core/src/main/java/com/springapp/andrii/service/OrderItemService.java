@@ -4,9 +4,11 @@ import com.springapp.andrii.exception.ResourceNotFoundException;
 import com.springapp.andrii.model.OrderItem;
 import com.springapp.andrii.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderItemService implements IService<OrderItem> {
 
     @Autowired
