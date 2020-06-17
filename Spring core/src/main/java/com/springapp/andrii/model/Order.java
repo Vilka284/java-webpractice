@@ -15,6 +15,6 @@ public class Order {
     private long id;
 
     @ManyToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 }

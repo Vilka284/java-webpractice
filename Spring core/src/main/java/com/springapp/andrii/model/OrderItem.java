@@ -1,10 +1,12 @@
 package com.springapp.andrii.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "order_item", schema = "public", catalog = "java_task")
 public class OrderItem {
