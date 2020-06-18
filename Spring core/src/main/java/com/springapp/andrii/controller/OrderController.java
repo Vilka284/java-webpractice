@@ -3,9 +3,9 @@ package com.springapp.andrii.controller;
 import com.springapp.andrii.model.Item;
 import com.springapp.andrii.model.Order;
 import com.springapp.andrii.model.OrderItem;
-import com.springapp.andrii.model.User;
 import com.springapp.andrii.service.OrderItemService;
 import com.springapp.andrii.service.OrderService;
+import com.springapp.andrii.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,9 @@ public class OrderController {
     @Autowired
     private OrderItemService orderItemService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/orders")
     public List<Order> getOrder() {
         return orderService.getAll();
@@ -32,11 +35,11 @@ public class OrderController {
         return orderService.get(id);
     }
 
-    @PostMapping("/orders")
-    public ResponseEntity<?> addOrder(@Valid @RequestBody Item item,
-                                      @Valid @RequestBody User user) {
+    @PostMapping("/orders/{userId}")
+    public ResponseEntity<?> addOrder(@PathVariable Long userId,
+                                      @Valid @RequestBody Item item) {
         Order order = new Order();
-        order.setUser(user);
+        order.setUser(userService.get(userId));
         orderService.save(order);
         OrderItem orderItem = new OrderItem();
         orderItem.setOrder(order);
@@ -47,13 +50,13 @@ public class OrderController {
                 : ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/orders/{orderId}/{orderItemId}")
+    @PutMapping("/orders/{orderId}/{orderItemId}/{userId}")
     public ResponseEntity<?> updateOrder(@PathVariable Long orderId,
                                          @PathVariable Long orderItemId,
-                                         @Valid @RequestBody Item item,
-                                         @Valid @RequestBody User user) {
+                                         @PathVariable Long userId,
+                                         @Valid @RequestBody Item item) {
         Order order = new Order();
-        order.setUser(user);
+        order.setUser(userService.get(userId));
         orderService.update(order, orderId);
         OrderItem orderItem = new OrderItem();
         orderItem.setOrder(order);
