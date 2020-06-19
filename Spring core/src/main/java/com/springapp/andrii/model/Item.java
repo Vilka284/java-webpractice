@@ -4,6 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -16,14 +19,20 @@ public class Item {
 
     @Basic
     @Column(name = "item_name")
+    @NotNull
+    @Size(min = 2, max = 50)
     private String name;
 
     @Basic
     @Column(name = "price")
+    @NotNull
+    @Min(0)
     private float price;
 
     @Basic
     @Column(name = "quantity")
+    @NotNull
+    @Min(0)
     private int quantity;
 
     @ManyToOne
