@@ -30,7 +30,7 @@ public class OrderDAO {
     }
 
 
-    public void closeOrder(int orderId, int itemId, boolean buy) {
+    public void deleteOrder(int orderId, int itemId, boolean buy) {
         Session session = HibernateUtil.currentSession();
         Transaction transaction = session.beginTransaction();
         Item item = session.load(Item.class, itemId);
@@ -49,7 +49,7 @@ public class OrderDAO {
     private void insertItems(int orderId, List<Integer> itemsIdList) {
         Session session = HibernateUtil.currentSession();
         Transaction transaction = session.beginTransaction();
-        String insertItemsQuery = 
+        String insertItemsQuery =
                 "INSERT INTO order_item VALUES (order_id, item_id) " +
                 "VALUES (" + orderId + ", " + itemsIdList.get(0) + ") ";
         itemsIdList.remove(0);

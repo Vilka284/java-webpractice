@@ -47,7 +47,7 @@ public class OrderServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) (session.getAttribute("currentSessionUser"));
 
-        orderDAO.closeOrder(
+        orderDAO.deleteOrder(
                 data.getInt("order_id"),
                 data.getInt("item_id"),
                 true
@@ -63,7 +63,7 @@ public class OrderServlet extends HttpServlet {
         User user = (User) (session.getAttribute("currentSessionUser"));
         String message = "unknown action";
 
-        orderDAO.closeOrder(
+        orderDAO.deleteOrder(
                 data.getInt("order_id"),
                 data.getInt("item_id"),
                 false

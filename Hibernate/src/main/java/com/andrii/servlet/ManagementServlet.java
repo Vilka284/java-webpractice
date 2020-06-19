@@ -28,7 +28,7 @@ public class ManagementServlet extends HttpServlet {
         User user = (User) (session.getAttribute("currentSessionUser"));
         String role = (String) session.getAttribute("userRole");
         String message = "unknown action";
-        boolean admin = role.equals(roleDAO.getRoleAdmin().toString());
+        boolean admin = role.equals(roleDAO.getRoleByName("admin").toString());
 
         if (admin) {
             userDAO.setRole(
@@ -53,7 +53,7 @@ public class ManagementServlet extends HttpServlet {
         User user = (User) (session.getAttribute("currentSessionUser"));
         String role = (String) session.getAttribute("userRole");
         String message = "unknown action";
-        boolean admin = role.equals(roleDAO.getRoleAdmin().toString());
+        boolean admin = role.equals(roleDAO.getRoleByName("admin").toString());
 
         if (admin) {
             userDAO.setRole(

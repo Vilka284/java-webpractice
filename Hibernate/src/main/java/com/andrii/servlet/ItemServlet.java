@@ -35,8 +35,8 @@ public class ItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("userRole");
         String message = "unknown action";
-        boolean admin = role.equals(roleDAO.getRoleAdmin().toString());
-        boolean manager = role.equals(roleDAO.getRoleManager().toString());
+        boolean admin = role.equals(roleDAO.getRoleByName("admin").toString());
+        boolean manager = role.equals(roleDAO.getRoleByName("manager").toString());
 
         if (admin || manager) {
             Item item = new Item();
@@ -79,8 +79,8 @@ public class ItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("userRole");
         String message = "unknown action";
-        boolean admin = role.equals(roleDAO.getRoleAdmin().toString());
-        boolean manager = role.equals(roleDAO.getRoleManager().toString());
+        boolean admin = role.equals(roleDAO.getRoleByName("admin").toString());
+        boolean manager = role.equals(roleDAO.getRoleByName("manager").toString());
 
         if (admin || manager) {
             itemDAO.removeItem(

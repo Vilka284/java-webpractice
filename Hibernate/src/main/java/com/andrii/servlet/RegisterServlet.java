@@ -27,7 +27,7 @@ public class RegisterServlet extends HttpServlet {
         User user = new User();
         user.setName(request.getParameter("name"));
         user.setPassword(request.getParameter("pswd"));
-        user.setRole(roleDAO.getRoleUser());
+        user.setRole(roleDAO.getRoleByName("user"));
 
         if (userDAO.register(user)) {
             HttpSession session = request.getSession(true);

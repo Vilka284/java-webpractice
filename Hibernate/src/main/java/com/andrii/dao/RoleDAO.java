@@ -22,15 +22,10 @@ public class RoleDAO {
         return role;
     }
 
-    public Role getRoleUser () {
-        return getRoleById(1);
-    }
-
-    public Role getRoleManager() {
-        return getRoleById(2);
-    }
-
-    public Role getRoleAdmin() {
-        return getRoleById(3);
+    public Role getRoleByName (String name) {
+        Session session = HibernateUtil.currentSession();
+        Role role = (Role) session.load(Role.class, name);
+        session.close();
+        return role;
     }
 }
