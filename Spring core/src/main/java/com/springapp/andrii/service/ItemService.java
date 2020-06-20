@@ -61,11 +61,25 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<Item> getItemsByGroup(Group group) {
-        List<Item> itemList = getAll();
-        return itemList
-                .stream()
-                .filter(item -> group.equals(item.getGroup()))
-                .collect(Collectors.toList());
+    public List<Item> getItemsByGroup(Group group, String order) {
+        if (order.equals("asc"))
+            return itemRepository.getAllFromGroupSortedByNameAsc(group);
+        else if (order.equals("desc"))
+            return itemRepository.getAllFromGroupSortedByNameDesc(group);
+        else
+            throw new ResourceNotFoundException("Unknown sorting order");
     }
+
+    public List<Item> getFilteredByPrice(float min, float max) {
+        return itemRepository.getAllFilteredByPrice(min, max);
+    }
+
+    public List<Item> getFilteredByNameStartsWith(String startsWith) {
+        return itemRepository.getAllFilteredStartsWith(startsWith);
+    }
+
+    public List<Item> getFilteredByNameEndsWith(String endsWith) {
+        return itemRepository.getAllFilteredEndsWith(endsWith);
+    }
+
 }

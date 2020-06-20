@@ -35,6 +35,11 @@ public class OrderController {
         return orderService.get(id);
     }
 
+    @GetMapping("/orders/closed/{userId}")
+    public List<Order> getClosedOrders(@PathVariable Long userId) {
+        return orderService.getClosedOrders(userService.get(userId));
+    }
+
     @PostMapping("/orders/{userId}")
     public ResponseEntity<?> createOrder(@PathVariable Long userId,
                                          @Valid @RequestBody Item item) {

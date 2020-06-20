@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +14,10 @@ public class Order {
     @Id
     @Column(name = "id")
     private long id;
+
+    @Column(name = "status")
+    @NotNull
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

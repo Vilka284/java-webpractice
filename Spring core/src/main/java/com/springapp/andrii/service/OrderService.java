@@ -2,6 +2,7 @@ package com.springapp.andrii.service;
 
 import com.springapp.andrii.exception.ResourceNotFoundException;
 import com.springapp.andrii.model.Order;
+import com.springapp.andrii.model.User;
 import com.springapp.andrii.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,14 @@ public class OrderService {
 
     public boolean exist(Order order) {
         return orderRepository.existsById(order.getId());
+    }
+
+    public List<Order> getClosedOrders(User user) {
+        return orderRepository.getClosedUserOrders(user);
+    }
+
+    public void closeOrder(Order order) {
+        order.setStatus("closed");
+        update(order, order.getId());
     }
 }
