@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS "order"
 (
     id      SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
+    status  VARCHAR(50),
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
 
