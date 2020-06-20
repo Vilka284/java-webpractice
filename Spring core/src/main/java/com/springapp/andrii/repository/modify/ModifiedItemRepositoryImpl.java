@@ -44,7 +44,7 @@ public class ModifiedItemRepositoryImpl implements ModifiedItemRepository {
         final String getItemsSortedByName = "SELECT * " +
                 " FROM item " +
                 " WHERE \'group\' = " + group.getId() +
-                " ORDER BY name ASC;";
+                " ORDER BY price, name;";
         Query query = entityManager.createQuery(getItemsSortedByName, Item.class);
         return (List<Item>) query.getResultList();
     }
@@ -54,7 +54,7 @@ public class ModifiedItemRepositoryImpl implements ModifiedItemRepository {
         final String getItemsSortedByName = "SELECT * " +
                 " FROM item " +
                 " WHERE \'group\' = " + group.getId() +
-                " ORDER BY name DESC;";
+                " ORDER BY price DESC, name;";
         Query query = entityManager.createQuery(getItemsSortedByName, Item.class);
         return (List<Item>) query.getResultList();
     }
