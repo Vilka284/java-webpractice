@@ -17,3 +17,9 @@ Previous JDBC project made with Hibernate. All objects are changed to autogenera
 * [Servlets](https://github.com/Vilka284/java-webpractice/tree/master/Hibernate/src/main/java/com/andrii/servlet) (Have the less changes)
 * [Entities](https://github.com/Vilka284/java-webpractice/tree/master/Hibernate/src/main/java/com/andrii/entity)
 * [DAO](https://github.com/Vilka284/java-webpractice/tree/master/Hibernate/src/main/java/com/andrii/dao)
+
+# Spring
+* [Controllers](https://github.com/Vilka284/java-webpractice/tree/master/Spring%20core/src/main/java/com/springapp/andrii/controller)
+* [Entities](https://github.com/Vilka284/java-webpractice/tree/master/Spring%20core/src/main/java/com/springapp/andrii/model)
+* [Repositories](https://github.com/Vilka284/java-webpractice/tree/master/Spring%20core/src/main/java/com/springapp/andrii/repository)
+* [Services](https://github.com/Vilka284/java-webpractice/tree/master/Spring%20core/src/main/java/com/springapp/andrii/service)
