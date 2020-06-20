@@ -8,11 +8,13 @@ import com.springapp.andrii.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ItemService implements IService<Item>, IGroup {
+@Transactional
+public class ItemService {
 
     @Autowired
     private ItemRepository itemRepository;
@@ -20,24 +22,20 @@ public class ItemService implements IService<Item>, IGroup {
     @Autowired
     private GroupRepository groupRepository;
 
-    @Override
     public Item get(long id) {
         return itemRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not exists"));
     }
 
-    @Override
     public List<Item> getAll() {
         return (List<Item>) itemRepository.findAll();
     }
 
-    @Override
     public void save(Item item) {
         itemRepository.save(item);
     }
 
-    @Override
     public void update(Item item, long id) {
         Item itemToUpdate = get(id);
         itemToUpdate.setName(item.getName());
@@ -47,17 +45,14 @@ public class ItemService implements IService<Item>, IGroup {
         save(itemToUpdate);
     }
 
-    @Override
     public void delete(Item item) {
         itemRepository.delete(item);
     }
 
-    @Override
     public boolean exist(Item item) {
         return itemRepository.existsById(item.getId());
     }
 
-    @Override
     public List<Group> getFullGroupPath(Item item) {
         List<Group> groupList = (List<Group>) groupRepository.findAll();
         return groupList
@@ -66,7 +61,6 @@ public class ItemService implements IService<Item>, IGroup {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<Item> getItemsByGroup(Group group) {
         List<Item> itemList = getAll();
         return itemList

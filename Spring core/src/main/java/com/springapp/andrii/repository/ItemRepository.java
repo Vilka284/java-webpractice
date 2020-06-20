@@ -1,9 +1,10 @@
 package com.springapp.andrii.repository;
 
 import com.springapp.andrii.model.Item;
+import com.springapp.andrii.repository.customize.SupplementedItemRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ItemRepository extends CrudRepository<Item, Long> {
+public interface ItemRepository extends CrudRepository<Item, Long>, SupplementedItemRepository {
 }

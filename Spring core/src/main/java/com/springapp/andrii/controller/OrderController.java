@@ -36,8 +36,8 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{userId}")
-    public ResponseEntity<?> addOrder(@PathVariable Long userId,
-                                      @Valid @RequestBody Item item) {
+    public ResponseEntity<?> createOrder(@PathVariable Long userId,
+                                         @Valid @RequestBody Item item) {
         Order order = new Order();
         order.setUser(userService.get(userId));
         orderService.save(order);
@@ -50,13 +50,12 @@ public class OrderController {
                 : ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/orders/{orderId}/{orderItemId}/{userId}")
+    @PutMapping("/orders/{orderId}/{orderItemId}")
     public ResponseEntity<?> updateOrder(@PathVariable Long orderId,
                                          @PathVariable Long orderItemId,
-                                         @PathVariable Long userId,
                                          @Valid @RequestBody Item item) {
         Order order = new Order();
-        order.setUser(userService.get(userId));
+        order.setUser(orderService.get(orderId).getUser());
         orderService.update(order, orderId);
         OrderItem orderItem = new OrderItem();
         orderItem.setOrder(order);

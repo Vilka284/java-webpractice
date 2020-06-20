@@ -6,32 +6,30 @@ import com.springapp.andrii.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class GroupService implements IService<Group> {
+@Transactional
+public class GroupService {
 
     @Autowired
     private GroupRepository groupRepository;
 
-    @Override
     public Group get(long id) {
         return groupRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Group with id not exist"));
     }
 
-    @Override
     public List<Group> getAll() {
         return (List<Group>) groupRepository.findAll();
     }
 
-    @Override
     public void save(Group group) {
         groupRepository.save(group);
     }
 
-    @Override
     public void update(Group group, long id) {
         Group groupToUpdate = get(id);
         groupToUpdate.setName(group.getName());
@@ -39,12 +37,10 @@ public class GroupService implements IService<Group> {
         save(groupToUpdate);
     }
 
-    @Override
     public void delete(Group group) {
         groupRepository.delete(group);
     }
 
-    @Override
     public boolean exist(Group group) {
         return groupRepository.existsById(group.getId());
     }

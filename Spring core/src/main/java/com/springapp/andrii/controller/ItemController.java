@@ -27,7 +27,7 @@ public class ItemController {
     }
 
     @PostMapping("/items")
-    public ResponseEntity<?> addItem(@Valid @RequestBody Item itemRequest) {
+    public ResponseEntity<?> createItem(@Valid @RequestBody Item itemRequest) {
         if (itemService.exist(itemRequest))
             throw new ResourceAlreadyExistsException("This item already exist!");
         itemService.save(itemRequest);
