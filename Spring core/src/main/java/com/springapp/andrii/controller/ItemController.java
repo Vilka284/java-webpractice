@@ -26,6 +26,18 @@ public class ItemController {
         return itemService.get(id);
     }
 
+    @GetMapping("/items/filter")
+    public List<Item> getFilteredItems(@RequestParam(defaultValue = "0.0", required = false) float minPrice,
+                                 @RequestParam(defaultValue = "0.0", required = false) float maxPrice,
+                                 @RequestParam(required = false) String startsWith,
+                                 @RequestParam(required = false) String endsWith) {
+        List<Item> itemList = itemService.getAll();
+        if (minPrice >= 0 && maxPrice > 0) filterByPrice(itemList, minPrice, maxPrice);
+        if (startsWith != null) filterByNameStart(itemList, startsWith);
+        if (endsWith != null) filterByNameEnd(itemList, endsWith);
+        return itemList;
+    }
+
     @PostMapping("/items")
     public ResponseEntity<?> createItem(@Valid @RequestBody Item itemRequest) {
         if (itemService.exist(itemRequest))
@@ -50,5 +62,20 @@ public class ItemController {
         return !itemService.exist(item)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.noContent().build();
+    }
+
+    private void filterByPrice(List<Item> itemList, float minPrice, float maxPrice) {
+        final List<Item> filteredItemList = itemService.getFilteredByPrice(minPrice, maxPrice);
+        itemList.removeIf(item -> !filteredItemList.contains(item));
+    }
+
+    private void filterByNameStart(List<Item> itemList, String startsWith) {
+        final List<Item> filteredItemList = itemService.getFilteredByNameStartsWith(startsWith);
+        itemList.removeIf(item -> !filteredItemList.contains(item));
+    }
+
+    private void filterByNameEnd(List<Item> itemList, String endsWith) {
+        final List<Item> filteredItemList = itemService.getFilteredByNameEndsWith(endsWith);
+        itemList.removeIf(item -> !filteredItemList.contains(item));
     }
 }

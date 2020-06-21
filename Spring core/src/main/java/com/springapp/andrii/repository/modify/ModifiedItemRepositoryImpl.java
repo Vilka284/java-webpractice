@@ -17,44 +17,39 @@ public class ModifiedItemRepositoryImpl implements ModifiedItemRepository {
 
     @Override
     public List<Item> getAllFilteredByPrice(Float minPrice, Float maxPrice) {
-        final String getItemsFilteredByPrice = "SELECT * " +
-                "FROM item WHERE price > " + minPrice + " AND price < " + maxPrice + ";";
+        final String getItemsFilteredByPrice = "from Item where price > " + minPrice + " and price < " + maxPrice;
         Query query = entityManager.createQuery(getItemsFilteredByPrice, Item.class);
         return (List<Item>) query.getResultList();
     }
 
     @Override
     public List<Item> getAllFilteredStartsWith(String nameStartsWith) {
-        final String getItemsFilteredByName = "SELECT * " +
-                "FROM item WHERE name LIKE \'" + nameStartsWith + "%\' ;";
+        final String getItemsFilteredByName = "from Item where name like \'" + nameStartsWith + "%\'";
         Query query = entityManager.createQuery(getItemsFilteredByName, Item.class);
         return (List<Item>) query.getResultList();
     }
 
     @Override
     public List<Item> getAllFilteredEndsWith(String nameEndsWith) {
-        final String getItemsFilteredByName = "SELECT * " +
-                "FROM item WHERE name LIKE \'%" + nameEndsWith + "\' ;";
+        final String getItemsFilteredByName = "from Item where name like \'%" + nameEndsWith + "\'";
         Query query = entityManager.createQuery(getItemsFilteredByName, Item.class);
         return (List<Item>) query.getResultList();
     }
 
     @Override
     public List<Item> getAllFromGroupSortedByNameAsc(Group group) {
-        final String getItemsSortedByName = "SELECT * " +
-                " FROM item " +
-                " WHERE \'group\' = " + group.getId() +
-                " ORDER BY price, name;";
+        final String getItemsSortedByName = "from Item " +
+                " where \'group\' = " + group.getId() +
+                " order by price asc, name asc";
         Query query = entityManager.createQuery(getItemsSortedByName, Item.class);
         return (List<Item>) query.getResultList();
     }
 
     @Override
     public List<Item> getAllFromGroupSortedByNameDesc(Group group) {
-        final String getItemsSortedByName = "SELECT * " +
-                " FROM item " +
-                " WHERE \'group\' = " + group.getId() +
-                " ORDER BY price DESC, name;";
+        final String getItemsSortedByName = "from Item " +
+                " where \'group\' = " + group.getId() +
+                " order by price desc, name";
         Query query = entityManager.createQuery(getItemsSortedByName, Item.class);
         return (List<Item>) query.getResultList();
     }

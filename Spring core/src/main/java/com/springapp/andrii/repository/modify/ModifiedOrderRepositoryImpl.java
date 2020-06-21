@@ -17,16 +17,14 @@ public class ModifiedOrderRepositoryImpl implements ModifiedOrderRepository {
 
     @Override
     public List<Order> getUserOrders(User user) {
-        final String getUserOrders = "SELECT * " +
-                " FROM \"order\" WHERE user_id = " + user.getId() + ";";
+        final String getUserOrders = "from Order where user_id = " + user.getId();
         Query query = entityManager.createQuery(getUserOrders, Order.class);
         return (List<Order>) query.getResultList();
     }
 
     @Override
     public List<Order> getClosedUserOrders(User user) {
-        final String getUserOrders = "SELECT * " +
-                " FROM \"order\" WHERE user_id = " + user.getId() + " AND status LIKE \'closed\';";
+        final String getUserOrders = "from Order where user_id = " + user.getId() + " and status like \'closed\'";
         Query query = entityManager.createQuery(getUserOrders, Order.class);
         return (List<Order>) query.getResultList();
     }
