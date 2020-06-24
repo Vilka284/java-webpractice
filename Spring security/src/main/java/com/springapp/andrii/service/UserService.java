@@ -2,7 +2,6 @@ package com.springapp.andrii.service;
 
 import com.springapp.andrii.exception.ResourceNotFoundException;
 import com.springapp.andrii.model.User;
-import com.springapp.andrii.repository.RoleRepository;
 import com.springapp.andrii.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +15,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     public User get(long id) {
         return userRepository
@@ -47,6 +43,6 @@ public class UserService {
     }
 
     public boolean exist(User user) {
-        return userRepository.existsById(user.getId());
+        return userRepository.existsById(user.getId()) && userRepository.getByUsername(user.getName()).equals(user);
     }
 }

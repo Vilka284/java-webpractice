@@ -38,7 +38,7 @@ public class ItemController {
         return itemList;
     }
 
-    @PostMapping("/items")
+    @PostMapping("/items/add")
     public ResponseEntity<?> createItem(@Valid @RequestBody Item itemRequest) {
         if (itemService.exist(itemRequest))
             throw new ResourceAlreadyExistsException("This item already exist!");
@@ -48,14 +48,14 @@ public class ItemController {
                 : ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/items/{id}")
+    @PutMapping("/items/update/{id}")
     public ResponseEntity<?> updateItem(@PathVariable Long id,
                                         @Valid @RequestBody Item itemRequest) {
         itemService.update(itemRequest, id);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/items/{id}")
+    @DeleteMapping("/items/delete/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable Long id) {
         Item item = itemService.get(id);
         itemService.delete(item);
