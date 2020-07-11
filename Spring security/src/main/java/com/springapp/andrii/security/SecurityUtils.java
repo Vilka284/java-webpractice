@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class SecurityUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityUtils.class);
 
     private SecurityUtils() {
     }
@@ -19,7 +19,7 @@ public class SecurityUtils {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
-            LOG.debug("no authentication in security context found");
+            log.debug("no authentication in security context found");
             return Optional.empty();
         }
 
@@ -31,7 +31,7 @@ public class SecurityUtils {
             username = (String) authentication.getPrincipal();
         }
 
-        LOG.debug("found username '{}' in security context", username);
+        log.debug("found username '{}' in security context", username);
 
         return Optional.ofNullable(username);
     }

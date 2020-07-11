@@ -6,7 +6,7 @@ spring:
       ddl-auto: update
   jackson:
     serialization:
-      INDENT_OUTPUT: true
+      indent_output: true
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/java_task
