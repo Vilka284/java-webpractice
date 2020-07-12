@@ -17,7 +17,7 @@ spring:
 jwt:
   header: Authorization
   # This token must be encoded using Base64 with mininum 88 Bits (you can type `echo 'secret-key'|base64` on your command line)
-  base64-secret: very-long-secret-key
+  base64-secret: +JaUk+x408eFRa+BtE8H74ndCO9OMAxj3He+0G4syIY=
   # token is valid 24 hours
   token-validity-in-seconds: 86400
   # valid 30 hours

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,16 +29,13 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String name) {
-        log.debug("Authenticating user '{}'", name);
+    public UserDetails loadUserByUsername(final String username) {
+        log.debug("Authenticating user '{}'", username);
 
-        return userRepository.getByUsername(name)
-                .map(user -> createSpringSecurityUser(name, user))
-                .orElseThrow(() -> new UsernameNotFoundException("User with name " + name + " are not exist"));
-
+        return createSpringSecurityUser(userRepository.getByUsername(username));
     }
 
-    private org.springframework.security.core.userdetails.User createSpringSecurityUser(String name, User user) {
+    private org.springframework.security.core.userdetails.User createSpringSecurityUser(User user) {
         List<Role> roles = (List<Role>) roleRepository.findAll();
         roles.removeIf(role -> !user.getRole().equals(role));
         List<GrantedAuthority> grantedAuthorities = roles.stream()

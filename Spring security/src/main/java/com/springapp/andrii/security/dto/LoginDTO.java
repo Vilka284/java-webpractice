@@ -13,7 +13,7 @@ public class LoginDTO {
     private String username;
 
     @NotNull
-    @Size(min = 8, max = 50)
+    @Size(min = 8, max = 100)
     private String password;
 
     private Boolean rememberMe;
