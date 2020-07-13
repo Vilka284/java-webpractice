@@ -33,15 +33,18 @@ public class JWTFilter extends GenericFilterBean {
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
+        setAuthentication(jwt, requestURI);
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private boolean setAuthentication(String jwt, String requestURI) {
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestURI);
-        } else {
-            log.debug("no valid JWT token found, uri: {}", requestURI);
+            return true;
         }
-
-        filterChain.doFilter(servletRequest, servletResponse);
+        return false;
     }
 
     private String resolveToken(HttpServletRequest request) {
